@@ -38,10 +38,10 @@ NULL
 #' @param digits number of digits
 #' @examples
 #' \dontrun{
-#' formatNum(10.2589, digits = 2)
+#' format_num(10.2589, digits = 2)
 #' }
 #' @export
-formatNum <- function(x, digits = 1) {
+format_num <- function(x, digits = 1) {
   formatC(round(x, digits = digits), format = 'f', digits = digits)
 }
 NULL

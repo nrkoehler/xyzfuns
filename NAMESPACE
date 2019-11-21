@@ -2,6 +2,6 @@
 
 export(add_and)
 export(fix_names)
-export(formatNum)
+export(format_num)
 export(more_less)
 export(pad_var)
