@@ -3,22 +3,45 @@
 #' @examples
 #' \dontrun{add_and(LETTERS[1:3])}
 #' @export
-add_and <- function (words, sep = ", ", and = "und")
-{
-  and = paste0(' ', and, ' ')
-  n = length(words)
-  if (n == 0)
+add_and <- function(words, sep = ", ", and = "und") {
+  and <- paste0(" ", and, " ")
+  n <- length(words)
+  if (n == 0) {
     stop("Vector should contain at least one object!")
-  if (n == 1)
+  }
+  if (n == 1) {
     return(words)
-  if (n == 2)
+  }
+  if (n == 2) {
     return(paste(words, collapse = and))
-  if (grepl("^ ", and) && grepl(" $", sep))
-    and = gsub("^ ", "", and)
-  words[n] = paste0(and, words[n])
-  words = paste(words, collapse = sep)
-  words = gsub(', und ', ' und ', words)
+  }
+  if (grepl("^ ", and) && grepl(" $", sep)) {
+    and <- gsub("^ ", "", and)
+  }
+  words[n] <- paste0(and, words[n])
+  words <- paste(words, collapse = sep)
+  words <- gsub(", und ", " und ", words)
   words
+}
+NULL
+#' @title Compare Two Vectors
+#' @description Compare two vectors and return intersections.
+#' @examples
+#' @source \url{https://twitter.com/tyluRp/status/1197634755430367235}
+#' \dontrun{
+#' x <- 1:4
+#' y <- 3:6
+#' compare(x, y)}
+#' @export
+compare_2_vecs <- function(x, y) {
+  list(
+    "Name of vector X" = deparse(substitute(x)),
+    "Name of vector Y" = deparse(substitute(y)),
+    "These values are in X not Y" = setdiff(x, y),
+    "These values are in Y not X" = setdiff(y, x),
+    "These values are shared between X and Y" = intersect(x, y),
+    "Combined, X and Y returns these values" = union(x, y)
+  )
 }
 NULL
 #' @title Fix Variable Names with Encoding Errors
@@ -42,7 +65,7 @@ NULL
 #' }
 #' @export
 format_num <- function(x, digits = 1) {
-  formatC(round(x, digits = digits), format = 'f', digits = digits)
+  formatC(round(x, digits = digits), format = "f", digits = digits)
 }
 NULL
 #' Return 'more' vs. 'less' if value is positive vs. negative.
@@ -55,9 +78,12 @@ NULL
 #' increase_more_less(0.2, ref = FALSE)
 #' }
 #' @export
-more_less <- function(x, rev = FALSE){
-  if (rev == FALSE) ifelse(x < 0, 'less', 'more') else
-    ifelse(x < 0, 'more', 'less')
+more_less <- function(x, rev = FALSE) {
+  if (rev == FALSE) {
+    ifelse(x < 0, "less", "more")
+  } else {
+    ifelse(x < 0, "more", "less")
+  }
 }
 NULL
 #' @title Add Prefix and Leading Zero(s) to Variables
