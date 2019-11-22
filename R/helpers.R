@@ -26,8 +26,8 @@ add_and <- function(words, sep = ", ", and = "und") {
 NULL
 #' @title Compare Two Vectors
 #' @description Compare two vectors and return intersections.
-#' @examples
 #' @source \url{https://twitter.com/tyluRp/status/1197634755430367235}
+#' @examples
 #' \dontrun{
 #' x <- 1:4
 #' y <- 3:6

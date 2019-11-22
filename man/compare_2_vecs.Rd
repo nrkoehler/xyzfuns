@@ -5,14 +5,16 @@
 \title{Compare Two Vectors}
 \source{
 \url{https://twitter.com/tyluRp/status/1197634755430367235}
-\dontrun{
-x <- 1:4
-y <- 3:6
-compare(x, y)}
 }
 \usage{
 compare_2_vecs(x, y)
 }
 \description{
 Compare two vectors and return intersections.
+}
+\examples{
+\dontrun{
+x <- 1:4
+y <- 3:6
+compare(x, y)}
 }
