@@ -99,3 +99,40 @@ pad_var <- function(x, prefix = NULL) {
   x <- paste0(prefix, x)
   x
 }
+NULL
+#' @title {Convert numbers to German words}
+#' @param x A numeric vector. Values should be integers. The absolute values should be between 0 and 10.
+#' @param cap Whether to capitalize the first letter of the word. This can be useful when the word is at the 
+#' beginning of a sentence. Default is FALSE.
+#' @param female Logical. Make gender of "ein" female ("eine").
+#' @export
+n2w_de <- function(x, cap = FALSE, female = FALSE) {
+  if (!is.numeric(x)) {
+    stop("The input is not numeric.")
+  }
+  x = abs(x)
+  if (any(abs(x) > 10)) 
+    stop("The absolute value must be less than 10!")
+
+  if (any(x != floor(x))) {
+    stop("The numbers must be integer.")
+  }
+  
+x <- ifelse(x == 0, 'null',
+       ifelse(x == 1, 'ein',
+              ifelse(x == 2, 'zwei',
+                     ifelse(x == 3, 'drei',
+                            ifelse(x == 4, 'vier',
+                                   ifelse(x == 5, 'fünf',
+                                          ifelse(x == 6, 'sechs',
+                                                 ifelse(x == 7, 'sieben',
+                                                        ifelse(x == 8, 'acht',
+                                                               ifelse(x == 9, 'neun',
+                                                                      ifelse(x == 10, 'zehn', '')))))))))))
+if (female == TRUE) x = sub('ein', 'eine', x)
+if (cap == TRUE) x = sub("^([a-z])", "\\U\\1", x, perl = TRUE)
+x
+  
+  
+}
+NULL
