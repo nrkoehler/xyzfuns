@@ -68,6 +68,19 @@ format_num <- function(x, digits = 1) {
   formatC(round(x, digits = digits), format = "f", digits = digits)
 }
 NULL
+#' Return 'increased' vs. 'decreased' if value is positive vs. negative.
+#' @description
+#' Return 'increased' vs. 'decreased' if value is positive vs. negative (in R Markdown documents)
+#' @param x  number
+#' @examples
+#' \dontrun{
+#' increase_decrease(-0.2)
+#' }
+#' @export
+increase_decrease <- function(x) {
+  ifelse(x < 0, "decreased", "increased")
+}
+NULL
 #' Return 'more' vs. 'less' if value is positive vs. negative.
 #' @description
 #' Return 'more' vs. 'less' if value is positive vs. negative (in R Markdown documents)
@@ -135,4 +148,9 @@ x
   
   
 }
+NULL
+#' @title {Update Packages fast}
+#' @description {Update Packages with the following defaults: ask=F, Ncpus=6}
+#' @export
+update_fast <- function(){utils::update.packages(ask=FALSE, Ncpus=6)}
 NULL
