@@ -154,3 +154,20 @@ NULL
 #' @export
 update_fast <- function(){utils::update.packages(ask=FALSE, Ncpus=6)}
 NULL
+#' @title {Prepare date variables for export}
+#' @description {Prepare date variables for export to Excel, SPSS, etc.}
+#' @export
+write_dates <- function(x) {
+  y <- nchar(as.character(x[which(!is.na(x))[1]]))
+  y <- ifelse(is.na(y), 1, y)
+  x <- if (y == 10) {
+    lubridate::ymd(x)
+  } else if (y == 16) {
+    lubridate::ymd_hm(x)
+  } else if (y == 19) {
+    lubridate::ymd_hms(x)
+  } else {
+    x <- x
+  }
+}
+NULL
