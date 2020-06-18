@@ -43,7 +43,6 @@ NULL
 #' @import ggplot2
 #' @importFrom dplyr pull `%>%`
 #' @importFrom tibble rownames_to_column
-#' @importFrom ggrepel geom_text_repel
 #' @importFrom modeest mlv
 #' @export
 gg_nice_hist <- function(data, x, x_lab = NULL, title = NULL, 
@@ -91,13 +90,6 @@ gg_nice_hist <- function(data, x, x_lab = NULL, title = NULL,
     scale_colour_manual(values = as.character(df.stats$col)) +
     scale_fill_manual(values = as.character(df.stats$col)) +
     scale_shape_manual(values = c(17, 15, 16)) +
-    ggrepel::geom_text_repel(aes(label = measure),
-      vjust = 0.1,
-      hjust = 0.1,
-      size = 3.5,
-      colour = "black",
-      alpha = 1
-    ) +
     geom_rug(aes(x = x), sides = "t", inherit.aes = FALSE, data = data) +
     stat_bin(aes(x = x, y = ..density..),
       data = data, inherit.aes = FALSE,
@@ -114,7 +106,9 @@ gg_nice_hist <- function(data, x, x_lab = NULL, title = NULL,
     geom_point(size = 5) +
     theme +
     theme(
-      legend.position = "none"
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      legend.position = "bottom"
    #   plot.caption = element_markdown(hjust = 0)
     ) +
     scale_x_continuous(trans = scale) # 'identity', 'log10', etc.
