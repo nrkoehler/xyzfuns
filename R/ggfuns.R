@@ -42,6 +42,7 @@ NULL
 #'              theme = mdthemes::md_theme_bw())
 #' }
 #' @import ggplot2
+#' @import scales
 #' @importFrom dplyr pull `%>%`
 #' @importFrom tibble rownames_to_column
 #' @importFrom modeest mlv
@@ -51,11 +52,13 @@ gg_nice_hist <- function(data,
                          x_lab = NULL, 
                          title = NULL, 
                          vline = NULL,
-                         scale = "identity", 
+                         scale = scales::identity_trans(), 
                          theme = mdthemes::md_theme_bw()) {
 
   x_lab <- if (is.null(x_lab)) deparse(substitute(x)) else x_lab
   x <- pull(data, {{ x }})
+
+  
 
   df.temp <- data.frame(
     Mode = round(mlv(x, na.rm = TRUE, method = 'shorth'), 2),
@@ -87,6 +90,7 @@ gg_nice_hist <- function(data,
       x = x_lab,
       y = "Density",
       title = title,
+      caption = paste('__x-scale transformer:__', scale[[1]]),
       subtitle = paste0("__N (valid)__ = ", NVALID, ", ",
                        "__N (missing)__ = ", NMISSING, ", ",
                        "__Mean (SD)__ = ", paste0(MEAN, ' (', SD, '), '),

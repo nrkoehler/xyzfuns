@@ -10,7 +10,7 @@ gg_nice_hist(
   x_lab = NULL,
   title = NULL,
   vline = NULL,
-  scale = "identity",
+  scale = scales::identity_trans(),
   theme = mdthemes::md_theme_bw()
 )
 }
