@@ -29,6 +29,7 @@ NULL
 #' @param x numeric variable (part of data)
 #' @param x_lab Label for x-axis (character)
 #' @param title Plot title (character)
+#' @param title x-intercept for vertical line (numeric)
 #' @param scale Scale transformation (character); defaults to "identity" (no transformation)
 #' @param theme ggplot-theme (function)
 #' @examples
@@ -38,15 +39,20 @@ NULL
 #'              x_lab = 'Gross horsepower',
 #'              title = 'mtcars: Gross horsepower',
 #'              scale = 'identity',
-#'              theme = ggplot2::theme_bw())
+#'              theme = mdthemes::md_theme_bw())
 #' }
 #' @import ggplot2
 #' @importFrom dplyr pull `%>%`
 #' @importFrom tibble rownames_to_column
 #' @importFrom modeest mlv
 #' @export
-gg_nice_hist <- function(data, x, x_lab = NULL, title = NULL, 
-                       scale = "identity", theme = theme_bw()) {
+gg_nice_hist <- function(data, 
+                         x, 
+                         x_lab = NULL, 
+                         title = NULL, 
+                         vline = NULL,
+                         scale = "identity", 
+                         theme = mdthemes::md_theme_bw()) {
 
   x_lab <- if (is.null(x_lab)) deparse(substitute(x)) else x_lab
   x <- pull(data, {{ x }})
@@ -91,6 +97,7 @@ gg_nice_hist <- function(data, x, x_lab = NULL, title = NULL,
     scale_fill_manual(values = as.character(df.stats$col)) +
     scale_shape_manual(values = c(17, 15, 16)) +
     geom_rug(aes(x = x), sides = "t", inherit.aes = FALSE, data = data) +
+    geom_vline(xintercept = vline, colour = 'red', linetype = 4) +
     stat_bin(aes(x = x, y = ..density..),
       data = data, inherit.aes = FALSE,
       bins = 30,

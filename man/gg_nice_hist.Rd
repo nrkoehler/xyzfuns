@@ -9,8 +9,9 @@ gg_nice_hist(
   x,
   x_lab = NULL,
   title = NULL,
+  vline = NULL,
   scale = "identity",
-  theme = theme_bw()
+  theme = mdthemes::md_theme_bw()
 )
 }
 \arguments{
@@ -20,7 +21,7 @@ gg_nice_hist(
 
 \item{x_lab}{Label for x-axis (character)}
 
-\item{title}{Plot title (character)}
+\item{title}{x-intercept for vertical line (numeric)}
 
 \item{scale}{Scale transformation (character); defaults to "identity" (no transformation)}
 
@@ -37,6 +38,6 @@ gg_nice_hist(data = mtcars,
              x_lab = 'Gross horsepower',
              title = 'mtcars: Gross horsepower',
              scale = 'identity',
-             theme = ggplot2::theme_bw())
+             theme = mdthemes::md_theme_bw())
 }
 }
