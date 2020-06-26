@@ -58,7 +58,7 @@ gg_nice_hist <- function(data,
   x_lab <- if (is.null(x_lab)) deparse(substitute(x)) else x_lab
   x <- pull(data, {{ x }})
 
-  
+  transformer <- if (scale[[1]] == 'identity') 'none' else scale[[1]]
 
   df.temp <- data.frame(
     Mode = round(mlv(x, na.rm = TRUE, method = 'shorth'), 2),
@@ -90,7 +90,7 @@ gg_nice_hist <- function(data,
       x = x_lab,
       y = "Density",
       title = title,
-      caption = paste('__x-scale transformer:__', scale[[1]]),
+      caption = paste('_x-scale transformer:_', transformer),
       subtitle = paste0("__N (valid)__ = ", NVALID, ", ",
                        "__N (missing)__ = ", NMISSING, ", ",
                        "__Mean (SD)__ = ", paste0(MEAN, ' (', SD, '), '),
@@ -100,16 +100,16 @@ gg_nice_hist <- function(data,
     scale_colour_manual(values = as.character(df.stats$col)) +
     scale_fill_manual(values = as.character(df.stats$col)) +
     scale_shape_manual(values = c(17, 15, 16)) +
-    geom_rug(aes(x = x), sides = "t", inherit.aes = FALSE, data = data) +
-    geom_vline(xintercept = vline, colour = 'red', linetype = 4) +
     stat_bin(aes(x = x, y = ..density..),
-      data = data, inherit.aes = FALSE,
-      bins = 30,
-      color = "black",
-      fill = "#dfe3ee",
-      size = 0.2,
-      alpha = 0.5
+             data = data, inherit.aes = FALSE,
+             bins = 30,
+             color = "black",
+             fill = "#dfe3ee",
+             size = 0.2,
+             alpha = 0.5
     ) +
+    geom_rug(aes(x = x), sides = "t", inherit.aes = FALSE, data = data) +
+    geom_vline(xintercept = vline, colour = 'red', linetype = 4, size = 1) +
     geom_line(
       stat = "density", data = data, aes(x = x), inherit.aes = FALSE,
       size = 1.2, colour = "#3b5998"
