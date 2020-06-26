@@ -90,7 +90,7 @@ gg_nice_hist <- function(data,
       x = x_lab,
       y = "Density",
       title = title,
-      caption = paste('_x-scale transformer:_', transformer),
+      caption = paste('x-scale transformer:', transformer),
       subtitle = paste0("__N (valid)__ = ", NVALID, ", ",
                        "__N (missing)__ = ", NMISSING, ", ",
                        "__Mean (SD)__ = ", paste0(MEAN, ' (', SD, '), '),
@@ -120,8 +120,7 @@ gg_nice_hist <- function(data,
       axis.ticks.y = element_blank(),
       axis.text.y = element_blank(),
       legend.position = "bottom"
-   #   plot.caption = element_markdown(hjust = 0)
     ) +
-    scale_x_continuous(trans = scale) # 'identity', 'log10', etc.
+    scale_x_continuous(trans = scale) 
 }
 NULL
