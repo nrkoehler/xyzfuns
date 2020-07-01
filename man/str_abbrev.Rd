@@ -9,7 +9,7 @@ str_abbrev(x, l_max = 10)
 \arguments{
 \item{x}{character string to be shortened}
 
-\item{l}{maximal length of character string (numeric), default = 10}
+\item{l_max}{maximal length of character string (numeric), default = 10}
 }
 \description{
 {Shortens a character string to a specified length}

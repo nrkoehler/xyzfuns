@@ -174,11 +174,11 @@ NULL
 #' @title {Shorten character string}
 #' @description {Shortens a character string to a specified length}
 #' @param x character string to be shortened
-#' @param l maximal length of character string (numeric), default = 10
+#' @param l_max maximal length of character string (numeric), default = 10
 #' @examples
 #' \dontrun{str_abbrev('Hypertension', l_max = 6)}
 #' @export
 str_abbrev <- function(x, l_max = 10) {
-  if (nchar(x) > l_max) paste0(substr(x, 1, l_max), '.') else x
+  ifelse(nchar(x) > l_max, paste0(substr(x, 1, l_max), "."), x)
 }
 NULL
