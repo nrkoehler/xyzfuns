@@ -182,3 +182,15 @@ str_abbrev <- function(x, l_max = 10) {
   ifelse(nchar(x) > l_max, paste0(substr(x, 1, l_max), "."), x)
 }
 NULL
+#' @title {Display the top and bottom of a data frame}
+#' @description {Quickly display the top and bottom of a data frame}
+#' @param data data frame
+#' @param n number of rows to display from head and tail
+#' \dontrun{
+#' ht(mtcars)
+#' }
+#' @export
+ht <- function(data, n = 5){
+  rbind(head(data, n), tail(data, n))
+}
+NULL
