@@ -1,8 +1,8 @@
 Package: xyzfuns
 Type: Package
 Title: Miscellaneous Helper Functions
-Version: 0.1.8
-Date: 2020-07-03
+Version: 0.1.9
+Date: 2020-09-24
 Authors@R: c(person("Norbert", "Koehler", 
     email = "norbert.koehler@zks.uni-leipzig.de", 
     role = c("aut", "cre"), 

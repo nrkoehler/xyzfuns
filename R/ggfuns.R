@@ -124,3 +124,142 @@ gg_nice_hist <- function(data,
     scale_x_continuous(trans = scale) 
 }
 NULL
+#' @title {Plot normal distribution using ggplot2}
+#' @description {Plot normal distribution along with standard deviations 
+#' and confidence intervals using ggplot2.} 
+#' Modified version of stevemisc::normal_distribution()
+#' @source {\url{https://github.com/svmiller/stevemisc}}
+#' @param curvecolor  Colour of the curve
+#' @param fillcolor Colour of the area under the curve
+#' @param arrowcolor Colour of the arrows
+#' @examples
+#' \dontrun{
+#' ggnorm_dist()
+#' }
+#' @import ggplot2
+#' @export
+ggnorm_dist <- function(curvecolor = "grey10", 
+                        fillcolor = "#C7271C",
+                        arrowcolor = 'yellow') {
+  ggplot(data.frame(x = c(-4, 4)), aes(x)) +
+    stat_function(
+      fun = dnorm,
+      xlim = c(-1, 1), size = 0,
+      geom = "area", fill = fillcolor, alpha = 0.5
+    ) +
+    geom_vline(xintercept = 0, colour = "white", size = 1) +
+    stat_function(
+      fun = dnorm, xlim = c(
+        qnorm(0.025),
+        abs(qnorm(0.025))
+      ), size = 0, geom = "area",
+      fill = fillcolor, alpha = 0.4
+    ) +
+    stat_function(
+      fun = dnorm,
+      xlim = c(qnorm(0.005), abs(qnorm(0.005))), size = 0,
+      geom = "area", fill = fillcolor, alpha = 0.3
+    ) +
+    geom_segment(x = 1, y = 0, xend = 1, yend = dnorm(
+      1,
+      0, 1
+    ), color = "white", linetype = "dashed") +
+    geom_segment(x = -1, y = 0, xend = -1, yend = dnorm(
+      1,
+      0, 1
+    ), color = "white", linetype = "dashed") +
+    geom_segment(x = abs(qnorm(0.025)), y = 0, xend = abs(qnorm(0.025)), yend = dnorm(
+      1,
+      0, 1
+    ), color = "white", linetype = "dashed") +
+    geom_segment(x = qnorm(0.025), y = 0, xend = qnorm(0.025), yend = dnorm(
+      1,
+      0, 1
+    ), color = "white", linetype = "dashed") +
+    geom_segment(
+      x = -0.15,
+      y = 0.2, xend = -0.99, yend = 0.2,
+      color = arrowcolor,
+      size = 1,
+      arrow = arrow(length = unit(0.15, "cm"))
+    ) +
+    geom_segment(
+      x = 0.15, y = 0.2, xend = 0.99, yend = 0.2,
+      color = arrowcolor,
+      size = 1,
+      arrow = arrow(length = unit(
+        0.15,
+        "cm"
+      ))
+    ) +
+    geom_segment(
+      x = -0.15,
+      y = 0.05, xend = -1.95, yend = 0.05,
+      color = arrowcolor,
+      size = 1,
+      arrow = arrow(length = unit(0.15, "cm"))
+    ) +
+    geom_segment(
+      x = 0.15, y = 0.05, xend = 1.95, yend = 0.05,
+      color = arrowcolor,
+      size = 1,
+      arrow = arrow(length = unit(
+        0.15,
+        "cm"
+      ))
+    ) +
+    geom_segment(
+      x = -0.15,
+      y = 0.01, xend = -2.57, yend = 0.01,
+      color = arrowcolor,
+      size = 1,
+      arrow = arrow(length = unit(0.15, "cm"))
+    ) +
+    geom_segment(
+      x = 0.15, y = 0.01, xend = 2.57, yend = 0.01,
+      color = arrowcolor,
+      size = 1,
+      arrow = arrow(length = unit(
+        0.15,
+        "cm"
+      ))
+    ) +
+    annotate(
+      geom = "label", x = 0, y = 0.2, label = "68%",
+      size = 4.5, color = "black"
+    ) +
+    annotate(
+      geom = "label",
+      x = 0, y = 0.05, label = "95%", size = 4.5,
+      color = "black"
+    ) +
+    annotate(
+      geom = "label",
+      x = 0, y = 0.01, label = "99%", size = 4.5,
+      color = "black"
+    ) +
+    stat_function(
+      fun = dnorm,
+      color = curvecolor, size = 1.2
+    ) +
+    scale_y_continuous(expand = c(0, 0)) +
+    scale_x_continuous(breaks = c(
+      -4,
+      -2.58, -1.96, -1, 0, 1, 1.96, 2.58,
+      4
+    )) +
+    theme_minimal() +
+    theme(
+      axis.title.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks.x = element_line(),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank()
+    ) +
+    labs(
+      title = "Normal distribution",
+      subtitle = "with standard deviations and confidence intervals",
+      x = "Standard Deviation"
+    )
+}
+NULL
