@@ -240,6 +240,6 @@ model_2_txt <- function(data,
   lower <- data %>% pull({{ lower }})
   upper <- data %>% pull({{ upper }})
   p <- data %>% pull(p)
-  paste0("(Beta = ", beta, unit, ", 95% CI [", lower, " to ", upper, "], ", p, ")")
+  paste0("Beta = ", beta, unit, ", 95% CI [", lower, " to ", upper, "], ", p)
 }
 NULL
