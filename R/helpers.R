@@ -194,3 +194,52 @@ ht <- function(data, n = 5){
   rbind(head(data, n), tail(data, n))
 }
 NULL
+#' @title {Print estimate, 95\% CI, and p-value of regression modles}
+#' @description {Print estimate, 95\% CI, and p-value as derived from broom::tidy(fit)}
+#' @param data data frame as derived from broom::tidy(fit)
+#' @param beta estimate
+#' @param unit unit of the estimate (needs to be quoted)
+#' @param lower Lower bound of 95% CI
+#' @param upper Upper bound of 95% CI
+#' @param p p-value
+#' @param term Name of independent variable (needs to be quoted, partial match is sufficient)
+#' @param filter_var Name of variable for which a filter should be applied
+#' @param filter_value Term to be filtered (needs to be quoted)
+#' @param digits Number of digits for estimate and CI (default: 2)
+#' 
+#' \dontrun{
+#' ht(mtcars)
+#' }
+#' @import dplyr
+#' @importFrom scales pvalue
+#' @export
+model_2_txt <- function(data,
+                        beta = estimate,
+                        unit = "",
+                        lower = conf.low,
+                        upper = conf.high,
+                        p = p.value,
+                        term,
+                        filter_var,
+                        filter_value,
+                        digits = 2) {
+  data <- data %>%
+    filter(
+      str_detect(term, {{ term }}),
+      {{ filter_var }} == filter_value
+    ) %>%
+    mutate_at(
+      vars({{ beta }}, {{ lower }}, {{ upper }}),
+      list(~ xyzfuns::format_num(., digits = digits))
+    ) %>%
+    mutate(p := {{ p }},
+      p = scales::pvalue(p, add_p = TRUE)
+    )
+
+  beta <- data %>% pull({{ beta }})
+  lower <- data %>% pull({{ lower }})
+  upper <- data %>% pull({{ upper }})
+  p <- data %>% pull(p)
+  paste0("(Beta = ", beta, unit, ", 95% CI [", lower, " to ", upper, "], ", p, ")")
+}
+NULL
