@@ -39,7 +39,7 @@ model_2_txt(
 \item{digits}{Number of digits for estimate and CI (default: 2)
 
 \dontrun{
-ht(mtcars)
+model_2_txt(df)
 }}
 }
 \description{
