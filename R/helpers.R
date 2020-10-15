@@ -195,17 +195,17 @@ ht <- function(data, n = 5){
 }
 NULL
 #' @title {Print estimate, 95\% CI, and p-value of regression modles}
-#' @description {Print estimate, 95\% CI, and p-value as derived from broom::tidy(fit)}
-#' @param data data frame as derived from broom::tidy(fit)
+#' @description {Print estimate, 95\% CI, and p-value as derived from broom::tidy\(fit\)}
+#' @param data data frame as derived from broom::tidy\(fit\)
 #' @param beta estimate
-#' @param unit unit of the estimate (needs to be quoted)
+#' @param unit unit of the estimate \(needs to be quoted\)
 #' @param lower Lower bound of 95\% CI
 #' @param upper Upper bound of 95\% CI
 #' @param p p-value
-#' @param term Name of independent variable (needs to be quoted, partial match is sufficient)
+#' @param term Name of independent variable \(needs to be quoted, partial match is sufficient\)
 #' @param filter_var Name of variable for which a filter should be applied
-#' @param filter_value Term to be filtered (needs to be quoted)
-#' @param digits Number of digits for estimate and CI (default: 2)
+#' @param filter_value Term to be filtered \(needs to be quoted\)
+#' @param digits Number of digits for estimate and CI \(default: 2\)
 #' 
 #' \dontrun{
 #' model_2_txt(df)

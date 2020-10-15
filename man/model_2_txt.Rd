@@ -18,11 +18,11 @@ model_2_txt(
 )
 }
 \arguments{
-\item{data}{data frame as derived from broom::tidy(fit)}
+\item{data}{data frame as derived from broom::tidy\(fit\)}
 
 \item{beta}{estimate}
 
-\item{unit}{unit of the estimate (needs to be quoted)}
+\item{unit}{unit of the estimate \(needs to be quoted\)}
 
 \item{lower}{Lower bound of 95\% CI}
 
@@ -30,18 +30,18 @@ model_2_txt(
 
 \item{p}{p-value}
 
-\item{term}{Name of independent variable (needs to be quoted, partial match is sufficient)}
+\item{term}{Name of independent variable \(needs to be quoted, partial match is sufficient\)}
 
 \item{filter_var}{Name of variable for which a filter should be applied}
 
-\item{filter_value}{Term to be filtered (needs to be quoted)}
+\item{filter_value}{Term to be filtered \(needs to be quoted\)}
 
-\item{digits}{Number of digits for estimate and CI (default: 2)
+\item{digits}{Number of digits for estimate and CI \(default: 2\)
 
 \dontrun{
 model_2_txt(df)
 }}
 }
 \description{
-{Print estimate, 95\% CI, and p-value as derived from broom::tidy(fit)}
+{Print estimate, 95\% CI, and p-value as derived from broom::tidy\(fit\)}
 }
