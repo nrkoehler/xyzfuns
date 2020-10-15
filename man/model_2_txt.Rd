@@ -24,9 +24,9 @@ model_2_txt(
 
 \item{unit}{unit of the estimate (needs to be quoted)}
 
-\item{lower}{Lower bound of 95% CI}
+\item{lower}{Lower bound of 95\% CI}
 
-\item{upper}{Upper bound of 95% CI}
+\item{upper}{Upper bound of 95\% CI}
 
 \item{p}{p-value}
 
@@ -39,7 +39,7 @@ model_2_txt(
 \item{digits}{Number of digits for estimate and CI (default: 2)
 
 \dontrun{
-ht(mtcars)
+model_2_txt(df)
 }}
 }
 \description{

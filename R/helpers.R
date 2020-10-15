@@ -199,8 +199,8 @@ NULL
 #' @param data data frame as derived from broom::tidy(fit)
 #' @param beta estimate
 #' @param unit unit of the estimate (needs to be quoted)
-#' @param lower Lower bound of 95% CI
-#' @param upper Upper bound of 95% CI
+#' @param lower Lower bound of 95\% CI
+#' @param upper Upper bound of 95\% CI
 #' @param p p-value
 #' @param term Name of independent variable (needs to be quoted, partial match is sufficient)
 #' @param filter_var Name of variable for which a filter should be applied
@@ -208,7 +208,7 @@ NULL
 #' @param digits Number of digits for estimate and CI (default: 2)
 #' 
 #' \dontrun{
-#' ht(mtcars)
+#' model_2_txt(df)
 #' }
 #' @import dplyr
 #' @importFrom scales pvalue
