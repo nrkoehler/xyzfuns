@@ -118,7 +118,7 @@ ggnice_hist <- function(data,
     geom_vline(xintercept = vline, colour = 'red', linetype = 4, size = 1) +
     geom_line(
       stat = "density", data = data, aes(x = x), inherit.aes = FALSE,
-      size = 1.2, colour = "#3b5998"
+      size = 1.2, colour = "#2c3e50"
     ) +
     geom_point(size = 5) +
     theme +
