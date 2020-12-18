@@ -29,7 +29,8 @@ NULL
 #' @param x numeric variable (part of data)
 #' @param x_lab Label for x-axis (character)
 #' @param title Plot title (character)
-#' @param title x-intercept for vertical line (numeric)
+#' @param vline x-intercept for vertical line (numeric)
+#' @param digits Number of digits (numeric)
 #' @param scale Scale transformation (character); defaults to "identity" (no transformation)
 #' @param theme ggplot-theme (function)
 #' @examples
@@ -52,6 +53,7 @@ ggnice_hist <- function(data,
                          x_lab = NULL, 
                          title = NULL, 
                          vline = NULL,
+                         digits = 1,
                          scale = scales::identity_trans(), 
                          theme = mdthemes::md_theme_bw()) {
 
@@ -67,19 +69,19 @@ ggnice_hist <- function(data,
   )
   NVALID <- sum(!is.na(x))
   NMISSING <- sum(is.na(x))
-  MEAN = round(mean(x, na.rm = TRUE), 1)
-  SD <- round(sd(x, na.rm = TRUE), 1)
-  MAD <- round(mad(x, na.rm = TRUE), 1)
-  MEDIAN = round(median(x, na.rm = TRUE), 1)
-  IQR <- paste(round(quantile(x, na.rm = TRUE), 1)[2],
-    round(quantile(x, na.rm = TRUE), 1)[4],
+  MEAN = format_num(mean(x, na.rm = TRUE), digits)
+  SD <- format_num(sd(x, na.rm = TRUE), digits)
+  MAD <- format_num(mad(x, na.rm = TRUE), digits)
+  MEDIAN = format_num(median(x, na.rm = TRUE), digits)
+  IQR <- paste(format_num(quantile(x, na.rm = TRUE), digits)[2],
+               format_num(quantile(x, na.rm = TRUE), digits)[4],
     sep = " to "
   )
   mode_fun <- function(x) {
     d <- stats::density(x, na.rm = TRUE)
     d$x[which.max(d$y)]
   }
-  MODE = mode_fun(x)
+  MODE = format_num(mode_fun(x), digits)
 
   df.stats <- data.frame(
     x = t(df.temp),
