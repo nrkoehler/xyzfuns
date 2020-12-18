@@ -34,7 +34,7 @@ NULL
 #' @param theme ggplot-theme (function)
 #' @examples
 #' \dontrun{
-#' gg_nice_hist(data = mtcars, 
+#' ggnice_hist(data = mtcars, 
 #'              x = hp, 
 #'              x_lab = 'Gross horsepower',
 #'              title = 'mtcars: Gross horsepower',
@@ -47,7 +47,7 @@ NULL
 #' @importFrom tibble rownames_to_column
 #' @importFrom modeest mlv
 #' @export
-gg_nice_hist <- function(data, 
+ggnice_hist <- function(data, 
                          x, 
                          x_lab = NULL, 
                          title = NULL, 
@@ -75,7 +75,11 @@ gg_nice_hist <- function(data,
     round(quantile(x, na.rm = TRUE), 1)[4],
     sep = " to "
   )
-  MODE = round(mlv(x, na.rm = TRUE, method = 'shorth'), 1)
+  mode_fun <- function(x) {
+    d <- stats::density(x, na.rm = TRUE)
+    d$x[which.max(d$y)]
+  }
+  MODE = mode_fun(x)
 
   df.stats <- data.frame(
     x = t(df.temp),
