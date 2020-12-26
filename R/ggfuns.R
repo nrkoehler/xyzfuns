@@ -59,6 +59,7 @@ ggnice_hist <- function(data,
 
   x_lab <- if (is.null(x_lab)) deparse(substitute(x)) else x_lab
   x <- pull(data, {{ x }})
+  x <- as.numeric(x)
 
   transformer <- if (scale[[1]] == 'identity') 'none' else scale[[1]]
 
