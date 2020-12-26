@@ -46,7 +46,6 @@ NULL
 #' @import scales
 #' @importFrom dplyr pull `%>%`
 #' @importFrom tibble rownames_to_column
-#' @importFrom modeest mlv
 #' @export
 ggnice_hist <- function(data, 
                          x, 
@@ -62,12 +61,18 @@ ggnice_hist <- function(data,
   x <- as.numeric(x)
 
   transformer <- if (scale[[1]] == 'identity') 'none' else scale[[1]]
+  
+  mode_fun <- function(x) {
+    d <- stats::density(x, na.rm = TRUE)
+    d$x[which.max(d$y)]
+  }
 
   df.temp <- data.frame(
-    Mode = round(mlv(x, na.rm = TRUE, method = 'shorth'), 2),
-    Median = round(median(x, na.rm = TRUE), 2),
-    Mean = round(mean(x, na.rm = TRUE), 2)
+    Mode = round(mode_fun(x), digits),
+    Median = round(median(x, na.rm = TRUE), digits),
+    Mean = round(mean(x, na.rm = TRUE), digits)
   )
+  
   NVALID <- sum(!is.na(x))
   NMISSING <- sum(is.na(x))
   MEAN = format_num(mean(x, na.rm = TRUE), digits)
@@ -78,10 +83,6 @@ ggnice_hist <- function(data,
                format_num(quantile(x, na.rm = TRUE), digits)[4],
     sep = " to "
   )
-  mode_fun <- function(x) {
-    d <- stats::density(x, na.rm = TRUE)
-    d$x[which.max(d$y)]
-  }
   MODE = format_num(mode_fun(x), digits)
 
   df.stats <- data.frame(
