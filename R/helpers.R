@@ -249,6 +249,7 @@ NULL
 #' @param cex Size of labels
 #' @references
 #' https://www.r-bloggers.com/colour-wheels-in-r/
+#' @export
 col_wheel <- function(term = "red", cex = 0.7) {
   cols <- colors()[grep(term, colors())]
   pie(rep(1, length(cols)), labels = cols, col = cols, cex = cex)
