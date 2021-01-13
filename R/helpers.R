@@ -243,3 +243,15 @@ model_2_txt <- function(data,
   paste0("Beta = ", beta, unit, ", 95% CI [", lower, " to ", upper, "], ", p)
 }
 NULL
+#' @title {Plot a colour wheel}
+#' @description {Plot a colour wheel and print colours to console}
+#' @param term Term the colour name should include
+#' @param cex Size of labels
+#' @references
+#' https://www.r-bloggers.com/colour-wheels-in-r/
+col_wheel <- function(term = "red", cex = 0.7) {
+  cols <- colors()[grep(term, colors())]
+  pie(rep(1, length(cols)), labels = cols, col = cols, cex = cex)
+  cols
+}
+NULL
