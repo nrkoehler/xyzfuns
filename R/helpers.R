@@ -1,7 +1,5 @@
-#' @title Add UND or AND to Listing
-#' @description Add UND or AND before the last element of a character vector.
-#' @examples
-#' \dontrun{add_and(LETTERS[1:3])}
+#' @title {Add 'und' or 'and' to Listing}
+#' @description Add 'und' or 'and' before the last element of a character vector.
 #' @export
 add_and <- function(words, sep = ", ", and = "und") {
   and <- paste0(" ", and, " ")
@@ -24,14 +22,15 @@ add_and <- function(words, sep = ", ", and = "und") {
   words
 }
 NULL
-#' @title Compare Two Vectors
-#' @description Compare two vectors and return intersections.
-#' @source \url{https://twitter.com/tyluRp/status/1197634755430367235}
+#' @title {Compare Two Vectors}
+#' @description {Compare two vectors and return intersections.}
+#' @source {\url{https://twitter.com/tyluRp/status/1197634755430367235}}
 #' @examples
 #' \dontrun{
 #' x <- 1:4
 #' y <- 3:6
-#' compare(x, y)}
+#' compare(x, y)
+#' }
 #' @export
 compare_2_vecs <- function(x, y) {
   list(
@@ -47,6 +46,7 @@ NULL
 #' @title {Plot a colour wheel}
 #' @description {Plot a colour wheel and print colours to console}
 #' @param term Term the colour name should include
+#' @source {\url{https://www.r-bloggers.com/colour-wheels-in-r/}}
 #' @export
 col_wheel <- function (term = "red", cex = 0.7) 
 {
@@ -55,19 +55,16 @@ col_wheel <- function (term = "red", cex = 0.7)
   cols
 }
 NULL
-#' @title Fix Variable Names with Encoding Errors
-#' @description Fix variable names with encoding errors.
-#' @examples
-#' \dontrun{df <- df %>% fix_names}
+#' @title {Fix variable names with encoding errors}
+#' @description {Fix variable names with encoding errors.}
 #' @export
 fix_names <- function(x) {
   names(x) <- enc2native(names(x))
   x
 }
 NULL
-#' Format numbers.
-#' @description
-#' Format numbers (in R Markdown documents)
+#' @title {Format numbers}
+#' @description {Format numbers (in R Markdown documents)}
 #' @param x  number
 #' @param digits number of digits
 #' @examples
@@ -91,14 +88,10 @@ ht <- function(data, n = 5){
   rbind(head(data, n), tail(data, n))
 }
 NULL
-#' Return 'increased' vs. 'decreased' if value is positive vs. negative.
+#' @title {Return 'increased' vs. 'decreased' if value is positive vs. negative}
 #' @description
 #' Return 'increased' vs. 'decreased' if value is positive vs. negative (in R Markdown documents)
 #' @param x  number
-#' @examples
-#' \dontrun{
-#' increase_decrease(-0.2)
-#' }
 #' @export
 increase_decrease <- function(x) {
   ifelse(x < 0, "decreased", "increased")
@@ -153,15 +146,12 @@ model_2_txt <- function(data,
   paste0("Beta = ", beta, unit, ", 95% CI [", lower, " to ", upper, "], ", p)
 }
 NULL
-#' Return 'more' vs. 'less' if value is positive vs. negative.
-#' @description
-#' Return 'more' vs. 'less' if value is positive vs. negative (in R Markdown documents)
+#' @title {Return 'more' vs. 'less' if value is positive vs. negative}
+#' @description {Return 'more' vs. 'less' if value is positive vs. negative 
+#' (in R Markdown documents)}
 #' @param x  number
 #' @param rev  FALSE (default) for increasing trend, TRUE for decreasing trend (reduction).
 #' @examples
-#' \dontrun{
-#' increase_more_less(0.2, ref = FALSE)
-#' }
 #' @export
 more_less <- function(x, rev = FALSE) {
   if (rev == FALSE) {
@@ -172,6 +162,7 @@ more_less <- function(x, rev = FALSE) {
 }
 NULL
 #' @title {Convert numbers to German words}
+#' @description {Convert numbers from 0 to 10 to German words.}
 #' @param x A numeric vector. Values should be integers. The absolute values should be between 0 and 10.
 #' @param cap Whether to capitalize the first letter of the word. This can be useful when the word is at the 
 #' beginning of a sentence. Default is FALSE.
@@ -183,7 +174,7 @@ n2w_de <- function(x, cap = FALSE, female = FALSE) {
   }
   x = abs(x)
   if (any(abs(x) > 10)) 
-    stop("The absolute value must be less than 10!")
+    stop("The absolute value must not be greater than 10!")
 
   if (any(x != floor(x))) {
     stop("The numbers must be integer.")
