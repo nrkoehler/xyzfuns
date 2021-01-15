@@ -10,6 +10,7 @@ ggnice_hist(
   x_lab = NULL,
   title = NULL,
   vline = NULL,
+  digits = 1,
   scale = scales::identity_trans(),
   theme = mdthemes::md_theme_bw()
 )
@@ -21,7 +22,11 @@ ggnice_hist(
 
 \item{x_lab}{Label for x-axis (character)}
 
-\item{title}{x-intercept for vertical line (numeric)}
+\item{title}{Plot title (character)}
+
+\item{vline}{x-intercept for vertical line (numeric)}
+
+\item{digits}{Number of digits (numeric)}
 
 \item{scale}{Scale transformation (character); defaults to "identity" (no transformation)}
 
