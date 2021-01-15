@@ -2,12 +2,12 @@
 % Please edit documentation in R/helpers.R
 \name{pad_var}
 \alias{pad_var}
-\title{Add Prefix and Leading Zero(s) to Variables}
+\title{{Add Prefix and Leading Zero(s) to Variables}}
 \usage{
 pad_var(x, prefix = NULL)
 }
 \description{
-Add prefix and leading zero(s) to variables in order to get strings of equal length.
+{Add prefix and leading zero(s) to variables in order to get strings of equal length.}
 }
 \examples{
 \dontrun{id <- c('1', '10', '100', '1000', '10000'); id_repair(id = a, prefix = 'CN_')}

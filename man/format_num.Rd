@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{format_num}
 \alias{format_num}
-\title{Format numbers.}
+\title{{Format numbers}}
 \usage{
 format_num(x, digits = 1)
 }
@@ -12,7 +12,7 @@ format_num(x, digits = 1)
 \item{digits}{number of digits}
 }
 \description{
-Format numbers (in R Markdown documents)
+{Format numbers (in R Markdown documents)}
 }
 \examples{
 \dontrun{

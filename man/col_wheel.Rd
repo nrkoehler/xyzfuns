@@ -3,17 +3,15 @@
 \name{col_wheel}
 \alias{col_wheel}
 \title{{Plot a colour wheel}}
+\source{
+{\url{https://www.r-bloggers.com/colour-wheels-in-r/}}
+}
 \usage{
 col_wheel(term = "red", cex = 0.7)
 }
 \arguments{
 \item{term}{Term the colour name should include}
-
-\item{cex}{Size of labels}
 }
 \description{
 {Plot a colour wheel and print colours to console}
-}
-\references{
-https://www.r-bloggers.com/colour-wheels-in-r/
 }

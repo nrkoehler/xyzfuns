@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{more_less}
 \alias{more_less}
-\title{Return 'more' vs. 'less' if value is positive vs. negative.}
+\title{{Return 'more' vs. 'less' if value is positive vs. negative}}
 \usage{
 more_less(x, rev = FALSE)
 }
@@ -12,10 +12,6 @@ more_less(x, rev = FALSE)
 \item{rev}{FALSE (default) for increasing trend, TRUE for decreasing trend (reduction).}
 }
 \description{
-Return 'more' vs. 'less' if value is positive vs. negative (in R Markdown documents)
-}
-\examples{
-\dontrun{
-increase_more_less(0.2, ref = FALSE)
-}
+{Return 'more' vs. 'less' if value is positive vs. negative 
+(in R Markdown documents)}
 }

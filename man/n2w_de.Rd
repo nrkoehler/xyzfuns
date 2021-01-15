@@ -15,5 +15,5 @@ beginning of a sentence. Default is FALSE.}
 \item{female}{Logical. Make gender of "ein" female ("eine").}
 }
 \description{
-{Convert numbers to German words}
+{Convert numbers from 0 to 10 to German words.}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{increase_decrease}
 \alias{increase_decrease}
-\title{Return 'increased' vs. 'decreased' if value is positive vs. negative.}
+\title{{Return 'increased' vs. 'decreased' if value is positive vs. negative}}
 \usage{
 increase_decrease(x)
 }
@@ -11,9 +11,4 @@ increase_decrease(x)
 }
 \description{
 Return 'increased' vs. 'decreased' if value is positive vs. negative (in R Markdown documents)
-}
-\examples{
-\dontrun{
-increase_decrease(-0.2)
-}
 }

@@ -2,17 +2,17 @@
 % Please edit documentation in R/helpers.R
 \name{paste_lipsum}
 \alias{paste_lipsum}
-\title{{Print Lorem Ipsum}}
+\title{{Print 'Lorem Ipsum'}}
 \source{
-{\url{https://github.com/aakosm/lipsum/}}
+{\url{https://github.com/aakosm/lipsum}}
 }
 \usage{
 paste_lipsum(n = 1)
 }
 \arguments{
-\item{n}{The number of lorem ipsum paragraphs to be printed.}
+\item{n}{The number of lorem ipsum paragraphs to be printed}
 }
 \description{
-{Prints to 'lorem ipsum' placeholder in the console
-or into a R Markdown document.}
+{Print 'Lorem Ipsum' to the console or
+in R Markdown documents}
 }

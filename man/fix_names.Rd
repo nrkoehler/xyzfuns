@@ -2,13 +2,10 @@
 % Please edit documentation in R/helpers.R
 \name{fix_names}
 \alias{fix_names}
-\title{Fix Variable Names with Encoding Errors}
+\title{{Fix variable names with encoding errors}}
 \usage{
 fix_names(x)
 }
 \description{
-Fix variable names with encoding errors.
-}
-\examples{
-\dontrun{df <- df \%>\% fix_names}
+{Fix variable names with encoding errors.}
 }

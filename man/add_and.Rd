@@ -2,13 +2,10 @@
 % Please edit documentation in R/helpers.R
 \name{add_and}
 \alias{add_and}
-\title{Add UND or AND to Listing}
+\title{{Add 'und' or 'and' to Listing}}
 \usage{
 add_and(words, sep = ", ", and = "und")
 }
 \description{
-Add UND or AND before the last element of a character vector.
-}
-\examples{
-\dontrun{add_and(LETTERS[1:3])}
+Add 'und' or 'and' before the last element of a character vector.
 }

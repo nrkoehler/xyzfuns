@@ -2,19 +2,20 @@
 % Please edit documentation in R/helpers.R
 \name{compare_2_vecs}
 \alias{compare_2_vecs}
-\title{Compare Two Vectors}
+\title{{Compare Two Vectors}}
 \source{
-\url{https://twitter.com/tyluRp/status/1197634755430367235}
+{\url{https://twitter.com/tyluRp/status/1197634755430367235}}
 }
 \usage{
 compare_2_vecs(x, y)
 }
 \description{
-Compare two vectors and return intersections.
+{Compare two vectors and return intersections.}
 }
 \examples{
 \dontrun{
 x <- 1:4
 y <- 3:6
-compare(x, y)}
+compare(x, y)
+}
 }
