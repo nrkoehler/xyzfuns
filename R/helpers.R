@@ -44,6 +44,17 @@ compare_2_vecs <- function(x, y) {
   )
 }
 NULL
+#' @title {Plot a colour wheel}
+#' @description {Plot a colour wheel and print colours to console}
+#' @param term Term the colour name should include
+#' @export
+col_wheel <- function (term = "red", cex = 0.7) 
+{
+  cols <- colors()[grep(term, colors())]
+  pie(rep(1, length(cols)), labels = cols, col = cols, cex = cex)
+  cols
+}
+NULL
 #' @title Fix Variable Names with Encoding Errors
 #' @description Fix variable names with encoding errors.
 #' @examples
@@ -68,6 +79,18 @@ format_num <- function(x, digits = 1) {
   formatC(round(x, digits = digits), format = "f", digits = digits)
 }
 NULL
+#' @title {Display the top and bottom of a data frame}
+#' @description {Quickly display the top and bottom of a data frame}
+#' @param data data frame
+#' @param n number of rows to display from head and tail
+#' \dontrun{
+#' ht(mtcars)
+#' }
+#' @export
+ht <- function(data, n = 5){
+  rbind(head(data, n), tail(data, n))
+}
+NULL
 #' Return 'increased' vs. 'decreased' if value is positive vs. negative.
 #' @description
 #' Return 'increased' vs. 'decreased' if value is positive vs. negative (in R Markdown documents)
@@ -79,119 +102,6 @@ NULL
 #' @export
 increase_decrease <- function(x) {
   ifelse(x < 0, "decreased", "increased")
-}
-NULL
-#' Return 'more' vs. 'less' if value is positive vs. negative.
-#' @description
-#' Return 'more' vs. 'less' if value is positive vs. negative (in R Markdown documents)
-#' @param x  number
-#' @param rev  FALSE (default) for increasing trend, TRUE for decreasing trend (reduction).
-#' @examples
-#' \dontrun{
-#' increase_more_less(0.2, ref = FALSE)
-#' }
-#' @export
-more_less <- function(x, rev = FALSE) {
-  if (rev == FALSE) {
-    ifelse(x < 0, "less", "more")
-  } else {
-    ifelse(x < 0, "more", "less")
-  }
-}
-NULL
-#' @title Add Prefix and Leading Zero(s) to Variables
-#' @description Add prefix and leading zero(s) to variables in order to get strings of equal length.
-#' @examples
-#' \dontrun{id <- c('1', '10', '100', '1000', '10000'); id_repair(id = a, prefix = 'CN_')}
-#' @export
-pad_var <- function(x, prefix = NULL) {
-  x <- as.character(x)
-  prefix <- as.character(prefix)
-  z <- max(nchar(x))
-  x <- stringr::str_pad(x, width = z, side = "left", pad = "0")
-  x <- paste0(prefix, x)
-  x
-}
-NULL
-#' @title {Convert numbers to German words}
-#' @param x A numeric vector. Values should be integers. The absolute values should be between 0 and 10.
-#' @param cap Whether to capitalize the first letter of the word. This can be useful when the word is at the 
-#' beginning of a sentence. Default is FALSE.
-#' @param female Logical. Make gender of "ein" female ("eine").
-#' @export
-n2w_de <- function(x, cap = FALSE, female = FALSE) {
-  if (!is.numeric(x)) {
-    stop("The input is not numeric.")
-  }
-  x = abs(x)
-  if (any(abs(x) > 10)) 
-    stop("The absolute value must be less than 10!")
-
-  if (any(x != floor(x))) {
-    stop("The numbers must be integer.")
-  }
-  
-x <- ifelse(x == 0, 'null',
-       ifelse(x == 1, 'ein',
-              ifelse(x == 2, 'zwei',
-                     ifelse(x == 3, 'drei',
-                            ifelse(x == 4, 'vier',
-                                   ifelse(x == 5, 'fünf',
-                                          ifelse(x == 6, 'sechs',
-                                                 ifelse(x == 7, 'sieben',
-                                                        ifelse(x == 8, 'acht',
-                                                               ifelse(x == 9, 'neun',
-                                                                      ifelse(x == 10, 'zehn', '')))))))))))
-if (female == TRUE) x = sub('ein', 'eine', x)
-if (cap == TRUE) x = sub("^([a-z])", "\\U\\1", x, perl = TRUE)
-x
-  
-  
-}
-NULL
-#' @title {Update Packages fast}
-#' @description {Update Packages with the following defaults: ask=F, Ncpus=6}
-#' @export
-update_fast <- function(){utils::update.packages(ask=FALSE, Ncpus=6)}
-NULL
-#' @title {Prepare date variables for export}
-#' @description {Prepare date variables for export to Excel, SPSS, etc.}
-#' @export
-write_dates <- function(x) {
-  y <- nchar(as.character(x[which(!is.na(x))[1]]))
-  y <- ifelse(is.na(y), 1, y)
-  x <- if (y == 10) {
-    lubridate::ymd(x)
-  } else if (y == 16) {
-    lubridate::ymd_hm(x)
-  } else if (y == 19) {
-    lubridate::ymd_hms(x)
-  } else {
-    x <- x
-  }
-}
-NULL
-#' @title {Shorten character string}
-#' @description {Shortens a character string to a specified length}
-#' @param x character string to be shortened
-#' @param l_max maximal length of character string (numeric), default = 10
-#' @examples
-#' \dontrun{str_abbrev('Hypertension', l_max = 6)}
-#' @export
-str_abbrev <- function(x, l_max = 10) {
-  ifelse(nchar(x) > l_max, paste0(substr(x, 1, l_max), "."), x)
-}
-NULL
-#' @title {Display the top and bottom of a data frame}
-#' @description {Quickly display the top and bottom of a data frame}
-#' @param data data frame
-#' @param n number of rows to display from head and tail
-#' \dontrun{
-#' ht(mtcars)
-#' }
-#' @export
-ht <- function(data, n = 5){
-  rbind(head(data, n), tail(data, n))
 }
 NULL
 #' @title {Print estimate, 95\% CI, and p-value of regression modles}
@@ -233,9 +143,9 @@ model_2_txt <- function(data,
       list(~ xyzfuns::format_num(., digits = digits))
     ) %>%
     mutate(p := {{ p }},
-      p = scales::pvalue(p, add_p = TRUE)
+           p = scales::pvalue(p, add_p = TRUE)
     )
-
+  
   beta <- data %>% pull({{ beta }})
   lower <- data %>% pull({{ lower }})
   upper <- data %>% pull({{ upper }})
@@ -243,3 +153,106 @@ model_2_txt <- function(data,
   paste0("Beta = ", beta, unit, ", 95% CI [", lower, " to ", upper, "], ", p)
 }
 NULL
+#' Return 'more' vs. 'less' if value is positive vs. negative.
+#' @description
+#' Return 'more' vs. 'less' if value is positive vs. negative (in R Markdown documents)
+#' @param x  number
+#' @param rev  FALSE (default) for increasing trend, TRUE for decreasing trend (reduction).
+#' @examples
+#' \dontrun{
+#' increase_more_less(0.2, ref = FALSE)
+#' }
+#' @export
+more_less <- function(x, rev = FALSE) {
+  if (rev == FALSE) {
+    ifelse(x < 0, "less", "more")
+  } else {
+    ifelse(x < 0, "more", "less")
+  }
+}
+NULL
+#' @title {Convert numbers to German words}
+#' @param x A numeric vector. Values should be integers. The absolute values should be between 0 and 10.
+#' @param cap Whether to capitalize the first letter of the word. This can be useful when the word is at the 
+#' beginning of a sentence. Default is FALSE.
+#' @param female Logical. Make gender of "ein" female ("eine").
+#' @export
+n2w_de <- function(x, cap = FALSE, female = FALSE) {
+  if (!is.numeric(x)) {
+    stop("The input is not numeric.")
+  }
+  x = abs(x)
+  if (any(abs(x) > 10)) 
+    stop("The absolute value must be less than 10!")
+
+  if (any(x != floor(x))) {
+    stop("The numbers must be integer.")
+  }
+  
+x <- ifelse(x == 0, 'null',
+       ifelse(x == 1, 'ein',
+              ifelse(x == 2, 'zwei',
+                     ifelse(x == 3, 'drei',
+                            ifelse(x == 4, 'vier',
+                                   ifelse(x == 5, 'fünf',
+                                          ifelse(x == 6, 'sechs',
+                                                 ifelse(x == 7, 'sieben',
+                                                        ifelse(x == 8, 'acht',
+                                                               ifelse(x == 9, 'neun',
+                                                                      ifelse(x == 10, 'zehn', '')))))))))))
+if (female == TRUE) x = sub('ein', 'eine', x)
+if (cap == TRUE) x = sub("^([a-z])", "\\U\\1", x, perl = TRUE)
+x
+  
+  
+}
+NULL
+#' @title {Add Prefix and Leading Zero(s) to Variables}
+#' @description {Add prefix and leading zero(s) to variables in order to get strings of equal length.}
+#' @examples
+#' \dontrun{id <- c('1', '10', '100', '1000', '10000'); id_repair(id = a, prefix = 'CN_')}
+#' @export
+pad_var <- function(x, prefix = NULL) {
+  x <- as.character(x)
+  prefix <- as.character(prefix)
+  z <- max(nchar(x))
+  x <- stringr::str_pad(x, width = z, side = "left", pad = "0")
+  x <- paste0(prefix, x)
+  x
+}
+NULL
+#' @title {Shorten character string}
+#' @description {Shortens a character string to a specified length}
+#' @param x character string to be shortened
+#' @param l_max maximal length of character string (numeric), default = 10
+#' @examples
+#' \dontrun{str_abbrev('Hypertension', l_max = 6)}
+#' @export
+str_abbrev <- function(x, l_max = 10) {
+  ifelse(nchar(x) > l_max, paste0(substr(x, 1, l_max), "."), x)
+}
+NULL
+#' @title {Update Packages fast}
+#' @description {Update Packages with the following defaults: ask=F, Ncpus=6}
+#' @export
+update_fast <- function(){utils::update.packages(ask=FALSE, Ncpus=6)}
+NULL
+#' @title {Prepare date variables for export}
+#' @description {Prepare date variables for export to Excel, SPSS, etc.}
+#' @export
+write_dates <- function(x) {
+  y <- nchar(as.character(x[which(!is.na(x))[1]]))
+  y <- ifelse(is.na(y), 1, y)
+  x <- if (y == 10) {
+    lubridate::ymd(x)
+  } else if (y == 16) {
+    lubridate::ymd_hm(x)
+  } else if (y == 19) {
+    lubridate::ymd_hms(x)
+  } else {
+    x <- x
+  }
+}
+NULL
+
+
