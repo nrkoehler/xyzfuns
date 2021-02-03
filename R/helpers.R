@@ -242,6 +242,47 @@ str_abbrev <- function(x, l_max = 10) {
   ifelse(nchar(x) > l_max, paste0(substr(x, 1, l_max), "."), x)
 }
 NULL
+#' @title {Tranform a character vector into a data frame}
+#' @description {A character vector can be printed into a bulleted list.
+#' However, a long list may be rather space consuming. This function transforms
+#' a character vector into a data frame, which may be printed as a table.}
+#' @param x Character vector
+#' @param n_col Desired number of columns for the data frame
+#' @param order Shall the character vector be ordered horizontally 
+#' ('horizontal', default) or vertically ('vertical')?
+#' @export
+str_2_df <- function(x, n_col = 6, order = 'horizontal'){
+  
+  if (length(x) < n_col) stop('Number of columns must not be smaller than the number of elements in the character vector!')
+  
+  if (order == 'horizontal') {
+    n_row <- n_col
+    n_col <- ceiling(length(x) / n_row)
+  } else if (order == 'vertical') {
+    n_raw <- ceiling(length(x) / n_col)
+  } else {
+    stop("'order' must be either 'horizontal' or 'vertical'. Please check for typos!")
+  }
+  
+  data <- data.frame(matrix(ncol = n_col, nrow = n_row))
+  colnames(data) <- LETTERS[1:n_col]
+  data$A <- x[1:n_row]
+  for (i in 2:n_col) {
+    data[, i] <- x[((i-1)*n_row+1):(i*n_row)]
+  }
+  data[n_col] <- apply(data, 1, function(x) {ifelse(any(is.na(x)), '', x)})
+  
+  if (order == 'horizontal') {
+    data <- t(data)
+    data <- as.data.frame(data)
+  } else if (order == 'vertical') {
+    data <- data
+  } else {
+    stop("'order' must bei either 'horizontal' or 'vertical'. Please check for typos!")
+  }
+  
+}
+NULL
 #' @title {Update Packages fast}
 #' @description {Update Packages with the following defaults: ask=F, Ncpus=6}
 #' @export
