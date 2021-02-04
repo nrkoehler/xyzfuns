@@ -259,7 +259,7 @@ str_2_df <- function(x, n_col = 6, order = 'horizontal'){
     n_row <- n_col
     n_col <- ceiling(length(x) / n_row)
   } else if (order == 'vertical') {
-    n_raw <- ceiling(length(x) / n_col)
+    n_row <- ceiling(length(x) / n_col)
   } else {
     stop("'order' must be either 'horizontal' or 'vertical'. Please check for typos!")
   }
@@ -270,17 +270,19 @@ str_2_df <- function(x, n_col = 6, order = 'horizontal'){
   for (i in 2:n_col) {
     data[, i] <- x[((i-1)*n_row+1):(i*n_row)]
   }
-  data[n_col] <- apply(data, 1, function(x) {ifelse(any(is.na(x)), '', x)})
+  
+  data[,n_col] <- ifelse(is.na(data[,n_col]), '', data[,n_col])
   
   if (order == 'horizontal') {
     data <- t(data)
     data <- as.data.frame(data)
+    row.names(data) <- NULL
   } else if (order == 'vertical') {
     data <- data
   } else {
     stop("'order' must bei either 'horizontal' or 'vertical'. Please check for typos!")
   }
-  
+  data
 }
 NULL
 #' @title {Update Packages fast}
