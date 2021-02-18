@@ -234,16 +234,16 @@ ggnorm_dist <- function(curvecolor = "grey10",
     ) +
     annotate(
       geom = "label", x = 0, y = 0.2, label = "68%",
-      size = 4.5, color = "black"
+      size = 6, color = "black"
     ) +
     annotate(
       geom = "label",
-      x = 0, y = 0.05, label = "95%", size = 4.5,
+      x = 0, y = 0.05, label = "95%", size = 6,
       color = "black"
     ) +
     annotate(
       geom = "label",
-      x = 0, y = 0.01, label = "99%", size = 4.5,
+      x = 0, y = 0.01, label = "99%", size = 6,
       color = "black"
     ) +
     stat_function(
@@ -251,15 +251,16 @@ ggnorm_dist <- function(curvecolor = "grey10",
       color = curvecolor, size = 1.2
     ) +
     scale_y_continuous(expand = c(0, 0)) +
-    scale_x_continuous(breaks = c(
-      -4,
-      -2.58, -1.96, -1, 0, 1, 1.96, 2.58,
-      4
-    )) +
+    scale_x_continuous(
+      breaks = c(-2.58, -1.96, -1, 0, 1, 1.96, 2.58),
+      labels = c('-3', '-2', '-1', 'x', '+1', '+2', '+3')
+      ) +
     theme_minimal() +
     theme(
       axis.title.y = element_blank(),
+      axis.title.x = element_text(size = 18),
       axis.text.y = element_blank(),
+      axis.text.x = element_text(size = 15),
       axis.ticks.x = element_line(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank()
