@@ -277,6 +277,7 @@ NULL
 #' Modified version of stevemisc::normal_distribution()
 #' @source {\url{http://freerangestats.info/blog/2015/09/05/creating-a-scale-transformation}}
 #' @param lambda  Tuning parameter
+#' @export
 modulus_trans <- function(lambda) {
   scales::trans_new("modulus",
                     transform = function(y) {
