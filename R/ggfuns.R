@@ -272,4 +272,29 @@ ggnorm_dist <- function(curvecolor = "grey10",
     )
 }
 NULL
-
+#' @title {Modulus scale transformation}
+#' @description {Modulus scale transformation function for ggplot2} 
+#' Modified version of stevemisc::normal_distribution()
+#' @source {\url{http://freerangestats.info/blog/2015/09/05/creating-a-scale-transformation}}
+#' @param lambda  Tuning parameter
+modulus_trans <- function(lambda) {
+  scales::trans_new("modulus",
+                    transform = function(y) {
+                      if (lambda != 0) {
+                        yt <- sign(y) * (((abs(y) + 1)^lambda - 1) / lambda)
+                      } else {
+                        yt <- sign(y) * (log(abs(y) + 1))
+                      }
+                      return(yt)
+                    },
+                    inverse = function(yt) {
+                      if (lambda != 0) {
+                        y <- ((abs(yt) * lambda + 1)^(1 / lambda) - 1) * sign(yt)
+                      } else {
+                        y <- (exp(abs(yt)) - 1) * sign(yt)
+                      }
+                      return(y)
+                    }
+  )
+}
+NULL
