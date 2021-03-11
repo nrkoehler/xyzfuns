@@ -231,6 +231,15 @@ paste_lipsum <- function(n = 1){
   }
 }
 NULL
+#' @title {Scaling by two standard deviations}
+#' @description {Scale a numeric vector by by two standard deviations
+#' (rather than by one)}
+#' @param x Numeric vector
+#' @export
+scale_by_2sd <- function(x) {
+  scale(x, center = TRUE, scale = FALSE) / (2 * sd(x, na.rm = TRUE))
+}
+NULL
 #' @title {Shorten character string}
 #' @description {Shortens a character string to a specified length}
 #' @param x character string to be shortened
