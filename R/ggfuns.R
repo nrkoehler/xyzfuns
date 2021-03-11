@@ -353,7 +353,7 @@ sliding_incidence_rate <- function(data,
     mutate(
       EVENTS = sum(NUMBER_OF_EVENTS %in% WINDOW),
       DAYS_UNDER_RISK= sum(TIME_UNDER_RISK %in% WINDOW),
-      IR = EVENTS / TIME * scale_fct
+      IR = EVENTS / DAYS_UNDER_RISK * scale_fct
     ) %>%
     select(-c(TIME_UNDER_RISK, NUMBER_OF_EVENTS, WINDOW)) 
   #  relocate(DAY_FIRST)
