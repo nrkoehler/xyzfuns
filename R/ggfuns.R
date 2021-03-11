@@ -331,7 +331,7 @@ sliding_incidence_rate <- function(data,
     select({{ var_grouping }}, starts_with("days_since"), ICU) %>%
     group_by({{ var_grouping }}) %>%
     summarise(
-      DAY_FIRST = min(ICU_START, na.rm=TRUE),
+   #   DAY_FIRST = min(ICU_START, na.rm=TRUE),
       TIME_UNDER_RISK = list(unlist(ICU)),
       NUMBER_OF_EVENTS = list(days_since_event)
     ) %>%
@@ -355,8 +355,8 @@ sliding_incidence_rate <- function(data,
       DAYS_UNDER_RISK= sum(TIME_UNDER_RISK %in% WINDOW),
       IR = EVENTS / TIME * scale_fct
     ) %>%
-    select(-c(TIME_UNDER_RISK, NUMBER_OF_EVENTS, WINDOW)) %>% 
-    relocate(DAY_FIRST)
+    select(-c(TIME_UNDER_RISK, NUMBER_OF_EVENTS, WINDOW)) 
+  #  relocate(DAY_FIRST)
 }
 NULL
 #' @title {Modulus scale transformation}
