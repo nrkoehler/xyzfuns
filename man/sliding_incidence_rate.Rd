@@ -8,40 +8,42 @@ sliding_incidence_rate(
   data,
   var_start_date = ICU_START,
   var_end_date = ICU_END,
-  var_event_date = MRE_DATE,
+  var_event_date = NULL,
   var_grouping = PERIOD,
   offset = list(start = 3, end = 2),
   time_span = 365,
   scale_fct = 1000,
-  window = 30,
-  step = 1
+  window = 20,
+  step = 3
 )
 }
 \arguments{
 \item{data}{{A data.frame }}
 
-\item{var_start_date}{{Variable with start dates (start of episode)}}
+\item{var_start_date}{{Variable with first day of episodes (default: ICU_START)}}
 
-\item{var_end_date}{{Variable with end dates (end of episode)}}
+\item{var_end_date}{{Variable with last day of episodes (default: ICU_END))}}
 
-\item{var_event_date}{{Variable with date of event}}
+\item{var_event_date}{{Variable with date of event (NULL)}}
 
-\item{var_grouping}{{Grouping variable (default: Intervention period)}}
+\item{var_grouping}{{Grouping variable (default: PERIOD)}}
 
 \item{offset}{{
 \itemize{
- \item \code{start} {Days between start of period and beginnung of time under risk}
- \item \code{end} {Days between end of period and end of time under risk}
+ \item \code{start} {Number of days between start of period 
+ and beginning of time under risk (default: 3)}
+ \item \code{end} {Number of days between end of period 
+ and end of time under risk (default: 2)}
 }
 }}
 
-\item{time_span}{{Length of intervention period (in days)}}
+\item{time_span}{{Length of intervention period in days (default: 365)}}
 
-\item{scale_fct}{{Scaling factor for incidence rate}}
+\item{scale_fct}{{Scaling factor for incidence rate (default: 1.000)}}
 
-\item{window}{{Size of sliding window (in days)}}
+\item{window}{{Size of sliding window in days (default: 20)}}
 
-\item{step}{{Step between sliding windows (in days)}}
+\item{step}{{Step between sliding windows in days (default: 3)}}
 }
 \value{
 {A data.frame with sliding incidence rates}

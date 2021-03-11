@@ -275,39 +275,41 @@ NULL
 #' @title {Sliding Incidence Rate}
 #' @description {Calculate incidence rate with sliding windows}
 #' @param data {A data.frame }
-#' @param var_start_date {Variable with start dates (start of episode)}
-#' @param var_end_date {Variable with end dates (end of episode)}
-#' @param var_event_date {Variable with date of event}
-#' @param var_grouping {Grouping variable (default: Intervention period)}
+#' @param var_start_date {Variable with first day of episodes (default: ICU_START)}
+#' @param var_end_date {Variable with last day of episodes (default: ICU_END))}
+#' @param var_event_date {Variable with date of event (NULL)}
+#' @param var_grouping {Grouping variable (default: PERIOD)}
 #' @param offset {
 #' \itemize{
-#'  \item \code{start} {Days between start of period and beginnung of time under risk}
-#'  \item \code{end} {Days between end of period and end of time under risk}
+#'  \item \code{start} {Number of days between start of period 
+#'  and beginning of time under risk (default: 3)}
+#'  \item \code{end} {Number of days between end of period 
+#'  and end of time under risk (default: 2)}
 #' }
 #' }
-#' @param time_span {Length of intervention period (in days)}
-#' @param scale_fct {Scaling factor for incidence rate}
-#' @param window {Size of sliding window (in days)}
-#' @param step {Step between sliding windows (in days)}
+#' @param time_span {Length of intervention period in days (default: 365)}
+#' @param scale_fct {Scaling factor for incidence rate (default: 1.000)}
+#' @param window {Size of sliding window in days (default: 20)}
+#' @param step {Step between sliding windows in days (default: 3)}
 #' @return {A data.frame with sliding incidence rates}
 #' @author {Dirk Hasenclever, Norbert Koehler}
 #' @export
 sliding_incidence_rate <- function(data,
                                    var_start_date = ICU_START,
                                    var_end_date = ICU_END,
-                                   var_event_date = MRE_DATE,
+                                   var_event_date = NULL,
                                    var_grouping = PERIOD,
                                    offset = list(start = 3, end = 2),
                                    time_span = 365,
                                    scale_fct = 1000,
-                                   window = 30,
-                                   step = 1) {
+                                   window = 20,
+                                   step = 3) {
   var_start_date <- enquo(var_start_date)
   var_end_date <- enquo(var_end_date)
   var_event_date <- enquo(var_event_date)
   group_name <- deparse(substitute(var_grouping))
   var_grouping <- enquo(var_grouping)
-  group_categories <- pull(data, {{ var_grouping }}) %>% unique()
+  group_categories <- dplyr::pull(data, {{ var_grouping }}) %>% unique()
   num_categories <- length(group_categories)
 
 
@@ -329,15 +331,16 @@ sliding_incidence_rate <- function(data,
     select({{ var_grouping }}, starts_with("days_since"), ICU) %>%
     group_by({{ var_grouping }}) %>%
     summarise(
-      DAYS_UNDER_RISK = list(unlist(ICU)),
+      DAY_FIRST = min(ICU_START, na.rm=TRUE),
+      TIME_UNDER_RISK = list(unlist(ICU)),
       NUMBER_OF_EVENTS = list(days_since_event)
     ) %>%
     ungroup()
 
   df.temp2 <- tibble(
-    starts = rep(seq(0, time_span - window, by = step), num_categories),
-    ends = starts + window,
-    group = rep(group_categories, each = length(starts) / num_categories)
+    WINDOW_START = rep(seq(0, time_span - window, by = step), num_categories),
+    WINDOW_END = WINDOW_START + window,
+    group = rep(group_categories, each = length(WINDOW_START) / num_categories)
   ) %>%
     rename_at(vars(3), list(~ c(group_name)))
 
@@ -346,13 +349,14 @@ sliding_incidence_rate <- function(data,
   df.RESULTS <- df.temp2 %>%
     left_join(df.temp1, by = group_name) %>%
     rowwise() %>%
-    mutate(WINDOW = list(starts:ends)) %>%
+    mutate(WINDOW = list(WINDOW_START:WINDOW_END)) %>%
     mutate(
       EVENTS = sum(NUMBER_OF_EVENTS %in% WINDOW),
-      TIME = sum(DAYS_UNDER_RISK %in% WINDOW),
+      DAYS_UNDER_RISK= sum(TIME_UNDER_RISK %in% WINDOW),
       IR = EVENTS / TIME * scale_fct
     ) %>%
-    select(-c(DAYS_UNDER_RISK, NUMBER_OF_EVENTS, WINDOW))
+    select(-c(TIME_UNDER_RISK, NUMBER_OF_EVENTS, WINDOW)) %>% 
+    relocate(DAY_FIRST)
 }
 NULL
 #' @title {Modulus scale transformation}
