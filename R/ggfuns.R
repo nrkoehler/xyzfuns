@@ -326,7 +326,7 @@ sliding_incidence_rate <- function(data,
       days_since_start_2 = ifelse(!is.na({{ var_event_date }}), days_since_event, days_since_start_2)
     ) %>%
     rowwise() %>%
-    mutate(ICU = list(days_since_start_1 + offset$start:days_since_start_2 + offset$end)) %>%
+    mutate(ICU = list(days_since_start_1:days_since_start_2)) %>%
     arrange({{ var_grouping }}, {{ var_start_date }}) %>%
     select({{ var_grouping }}, starts_with("days_since"), ICU) %>%
     group_by({{ var_grouping }}) %>%
