@@ -341,7 +341,10 @@ sliding_incidence_rate <- function(data,
 
   data <- data %>%
     # var_start_date & var_end_date must not by missing
-    filter(!is.na({{ var_start_date }}) & !is.na({{ var_end_date }}))
+    filter(!is.na({{ var_start_date }}) & !is.na({{ var_end_date }})) %>% 
+    # Add offset to get periods at risk
+    mutate_at(vars({{ var_start_date }}), list(~lubridate::days(offset$start) + .)) %>% 
+    mutate_at(vars({{ var_end_date }}), list(~lubridate::days(offset$end) + .)) 
 
   df.temp1 <- data %>%
     group_by({{ var_grouping }}) %>%
@@ -358,7 +361,7 @@ sliding_incidence_rate <- function(data,
     group_by({{ var_grouping }}) %>%
     summarise(
    #   DAY_FIRST = min(ICU_START, na.rm=TRUE),
-      TIME_UNDER_RISK = list(unlist(ICU)),
+      TIME_AT_RISK = list(unlist(ICU)),
       NUMBER_OF_EVENTS = list(days_since_event)
     ) %>%
     ungroup()
@@ -378,11 +381,11 @@ sliding_incidence_rate <- function(data,
     mutate(WINDOW = list(WINDOW_START:WINDOW_END)) %>%
     mutate(
       EVENTS = sum(NUMBER_OF_EVENTS %in% WINDOW),
-      DAYS_UNDER_RISK= sum(TIME_UNDER_RISK %in% WINDOW),
-      IR = EVENTS / DAYS_UNDER_RISK * scale_fct
+      DAYS_AT_RISK= sum(TIME_AT_RISK %in% WINDOW),
+      IR = EVENTS / DAYS_AT_RISK * scale_fct
     ) %>%
-    select(-c(TIME_UNDER_RISK, NUMBER_OF_EVENTS, WINDOW)) 
-  #  relocate(DAY_FIRST)
+    select(-c(TIME_AT_RISK, NUMBER_OF_EVENTS, WINDOW)) 
+
 }
 NULL
 
