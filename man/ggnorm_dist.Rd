@@ -3,30 +3,21 @@
 \name{ggnorm_dist}
 \alias{ggnorm_dist}
 \title{{Plot normal distribution using ggplot2}}
-\source{
-{\url{https://github.com/svmiller/stevemisc}}
-}
 \usage{
 ggnorm_dist(
-  curvecolor = "grey10",
-  fillcolor = "#C7271C",
-  arrowcolor = "yellow"
+  line_color = "white",
+  fill_color = "steelblue",
+  arrow_color = "black"
 )
 }
 \arguments{
-\item{curvecolor}{Colour of the curve}
+\item{line_color}{Colour of the vertical lines}
 
-\item{fillcolor}{Colour of the area under the curve}
+\item{fill_color}{Colour of the area under the curve}
 
-\item{arrowcolor}{Colour of the arrows}
+\item{arrow_color}{Colour of the arrows}
 }
 \description{
-{Plot normal distribution along with standard deviations 
-and confidence intervals using ggplot2.} 
-Modified version of stevemisc::normal_distribution()
-}
-\examples{
-\dontrun{
-ggnorm_dist()
-}
+{Plots normal distribution along with standard deviations 
+and confidence intervals using ggplot2.}
 }

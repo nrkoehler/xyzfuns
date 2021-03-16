@@ -50,6 +50,7 @@ NULL
 ggnice_hist <- function(data, 
                          x, 
                          x_lab = NULL, 
+                         x_breaks = NULL,
                          title = NULL, 
                          vline = NULL,
                          digits = 1,
@@ -59,6 +60,7 @@ ggnice_hist <- function(data,
   x_lab <- if (is.null(x_lab)) deparse(substitute(x)) else x_lab
   x <- pull(data, {{ x }})
   x <- as.numeric(x)
+  x_breaks <- if (is.null(x_breaks)) waiver() else x_breaks
 
   transformer <- if (scale[[1]] == 'identity') 'none' else scale[[1]]
   
@@ -129,147 +131,68 @@ ggnice_hist <- function(data,
       axis.text.y = element_blank(),
       legend.position = "bottom"
     ) +
-    scale_x_continuous(trans = scale) 
+    scale_x_continuous(trans = scale, breaks = x_breaks) 
 }
 NULL
 #' @title {Plot normal distribution using ggplot2}
-#' @description {Plot normal distribution along with standard deviations 
+#' @description {Plots normal distribution along with standard deviations 
 #' and confidence intervals using ggplot2.} 
-#' Modified version of stevemisc::normal_distribution()
-#' @source {\url{https://github.com/svmiller/stevemisc}}
-#' @param curvecolor  Colour of the curve
-#' @param fillcolor Colour of the area under the curve
-#' @param arrowcolor Colour of the arrows
-#' @examples
-#' \dontrun{
-#' ggnorm_dist()
-#' }
+#' @param line_color  Colour of the vertical lines
+#' @param fill_color Colour of the area under the curve
+#' @param arrow_color Colour of the arrows
 #' @import ggplot2
+#' @importFrom grid arrow
 #' @export
-ggnorm_dist <- function(curvecolor = "grey10", 
-                        fillcolor = "#C7271C",
-                        arrowcolor = 'yellow') {
-  ggplot(data.frame(x = c(-4, 4)), aes(x)) +
+ggnorm_dist <- function(line_color = 'white',
+                        fill_color = 'steelblue',
+                        arrow_color = 'black') {
+  
+  arrow <- grid::arrow(length = unit(5, "mm"), angle = 15)
+
+  ggplot(data.frame(x = c(-3.5, 0,  3.5)), aes(x)) +
     stat_function(
       fun = dnorm,
-      xlim = c(-1, 1), size = 0,
-      geom = "area", fill = fillcolor, alpha = 0.5
-    ) +
-    geom_vline(xintercept = 0, colour = "white", size = 1) +
-    stat_function(
-      fun = dnorm, xlim = c(
-        qnorm(0.025),
-        abs(qnorm(0.025))
-      ), size = 0, geom = "area",
-      fill = fillcolor, alpha = 0.4
+      geom = "line"
     ) +
     stat_function(
       fun = dnorm,
-      xlim = c(qnorm(0.005), abs(qnorm(0.005))), size = 0,
-      geom = "area", fill = fillcolor, alpha = 0.3
-    ) +
-    geom_segment(x = 1, y = 0, xend = 1, yend = dnorm(
-      1,
-      0, 1
-    ), color = "white", linetype = "dashed") +
-    geom_segment(x = -1, y = 0, xend = -1, yend = dnorm(
-      1,
-      0, 1
-    ), color = "white", linetype = "dashed") +
-    geom_segment(x = abs(qnorm(0.025)), y = 0, xend = abs(qnorm(0.025)), yend = dnorm(
-      1,
-      0, 1
-    ), color = "white", linetype = "dashed") +
-    geom_segment(x = qnorm(0.025), y = 0, xend = qnorm(0.025), yend = dnorm(
-      1,
-      0, 1
-    ), color = "white", linetype = "dashed") +
-    geom_segment(
-      x = -0.15,
-      y = 0.2, xend = -0.99, yend = 0.2,
-      color = arrowcolor,
-      size = 1,
-      arrow = arrow(length = unit(0.15, "cm"))
-    ) +
-    geom_segment(
-      x = 0.15, y = 0.2, xend = 0.99, yend = 0.2,
-      color = arrowcolor,
-      size = 1,
-      arrow = arrow(length = unit(
-        0.15,
-        "cm"
-      ))
-    ) +
-    geom_segment(
-      x = -0.15,
-      y = 0.05, xend = -1.95, yend = 0.05,
-      color = arrowcolor,
-      size = 1,
-      arrow = arrow(length = unit(0.15, "cm"))
-    ) +
-    geom_segment(
-      x = 0.15, y = 0.05, xend = 1.95, yend = 0.05,
-      color = arrowcolor,
-      size = 1,
-      arrow = arrow(length = unit(
-        0.15,
-        "cm"
-      ))
-    ) +
-    geom_segment(
-      x = -0.15,
-      y = 0.01, xend = -2.57, yend = 0.01,
-      color = arrowcolor,
-      size = 1,
-      arrow = arrow(length = unit(0.15, "cm"))
-    ) +
-    geom_segment(
-      x = 0.15, y = 0.01, xend = 2.57, yend = 0.01,
-      color = arrowcolor,
-      size = 1,
-      arrow = arrow(length = unit(
-        0.15,
-        "cm"
-      ))
-    ) +
-    annotate(
-      geom = "label", x = 0, y = 0.2, label = "68%",
-      size = 6, color = "black"
-    ) +
-    annotate(
-      geom = "label",
-      x = 0, y = 0.05, label = "95%", size = 6,
-      color = "black"
-    ) +
-    annotate(
-      geom = "label",
-      x = 0, y = 0.01, label = "99%", size = 6,
-      color = "black"
+      geom = "area",
+      fill = fill_color,
+      xlim = c(-3, 3),
+      alpha = .3
+    ) + 
+    stat_function(
+      fun = dnorm,
+      geom = "area",
+      fill = fill_color,
+      xlim = c(-2, 2),
+      alpha = .5
     ) +
     stat_function(
       fun = dnorm,
-      color = curvecolor, size = 1.2
+      geom = "area",
+      fill = fill_color,
+      xlim = c(-1, 1),
+      alpha = .8
     ) +
-    scale_y_continuous(expand = c(0, 0)) +
-    scale_x_continuous(
-      breaks = c(-2.58, -1.96, -1, 0, 1, 1.96, 2.58),
-      labels = c('-3', '-2', '-1', 'x', '+1', '+2', '+3')
-      ) +
+    scale_x_continuous(breaks = seq(-3, 3, 1)) +
+    scale_y_continuous(expand = c(0, 0.01)) +
+    geom_vline(xintercept = seq(-2, 2, 1), colour = line_color, linetype = 2, size = 1) +
+    geom_segment(x = rep(0, 3), xend = c(3, 2, 1), 
+                 y = c(0, 0.05, 0.24), yend = c(0, 0.05, 0.24), 
+                 color = arrow_color, size = 1, arrow = arrow) +
+    geom_segment(x = rep(0, 3), xend = c(-3, -2, -1), 
+                 y = c(0, 0.05, 0.24), yend = c(0, 0.05, 0.24), 
+                 color = arrow_color, size = 1, arrow = arrow) +
+    geom_label(data = data.frame(x = rep(0, 3), 
+                                 y = c(0, 0.05, 0.24),
+                                 label = c('99%', '95%', '68%')),
+               aes(x = x, y = y, label = label), size = 7) +
     theme_minimal() +
-    theme(
-      axis.title.y = element_blank(),
-      axis.title.x = element_text(size = 18),
-      axis.text.y = element_blank(),
-      axis.text.x = element_text(size = 15),
-      axis.ticks.x = element_line(),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank()
-    ) +
-    labs(
-      title = "Normal distribution",
-      subtitle = "with standard deviations and confidence intervals",
-      x = "Standard Deviation"
-    )
+    theme(axis.text.x = element_text(size = 18),
+          axis.text.y = element_blank(),
+          axis.title.x = element_text(size = 20)) +
+    labs(x = 'Standard deviations around sample mean', y = NULL)
 }
 NULL
 #' @title {Modulus scale transformation}
@@ -320,16 +243,16 @@ NULL
 #' @return {A data.frame with sliding incidence rates}
 #' @author {Dirk Hasenclever, Norbert Koehler}
 #' @export
-sliding_incidence_rate <- function(data,
-                                   var_start_date = ICU_START,
-                                   var_end_date = ICU_END,
-                                   var_event_date = NULL,
-                                   var_grouping = PERIOD,
-                                   offset = list(start = 3, end = 2),
-                                   time_span = 365,
-                                   scale_fct = 1000,
-                                   window = 20,
-                                   step = 3) {
+sliding_IR <- function(data,
+                       var_start_date = ICU_START,
+                       var_end_date = ICU_END,
+                       var_event_date = NULL,
+                       var_grouping = PERIOD,
+                       offset = list(start = 3, end = 2),
+                       time_span = 365,
+                       scale_fct = 1000,
+                       window = 20,
+                       step = 3) {
   var_start_date <- enquo(var_start_date)
   var_end_date <- enquo(var_end_date)
   var_event_date <- enquo(var_event_date)
@@ -341,10 +264,10 @@ sliding_incidence_rate <- function(data,
 
   data <- data %>%
     # var_start_date & var_end_date must not by missing
-    filter(!is.na({{ var_start_date }}) & !is.na({{ var_end_date }})) %>% 
+    filter(!is.na({{ var_start_date }}) & !is.na({{ var_end_date }})) %>%
     # Add offset to get periods at risk
-    mutate_at(vars({{ var_start_date }}), list(~lubridate::days(offset$start) + .)) %>% 
-    mutate_at(vars({{ var_end_date }}), list(~lubridate::days(offset$end) + .)) 
+    mutate_at(vars({{ var_start_date }}), list(~ lubridate::days(offset$start) + .)) %>%
+    mutate_at(vars({{ var_end_date }}), list(~ lubridate::days(offset$end) + .))
 
   df.temp1 <- data %>%
     group_by({{ var_grouping }}) %>%
@@ -360,7 +283,7 @@ sliding_incidence_rate <- function(data,
     select({{ var_grouping }}, starts_with("days_since"), ICU) %>%
     group_by({{ var_grouping }}) %>%
     summarise(
-   #   DAY_FIRST = min(ICU_START, na.rm=TRUE),
+      #   DAY_FIRST = min(ICU_START, na.rm=TRUE),
       TIME_AT_RISK = list(unlist(ICU)),
       NUMBER_OF_EVENTS = list(days_since_event)
     ) %>%
@@ -381,11 +304,10 @@ sliding_incidence_rate <- function(data,
     mutate(WINDOW = list(WINDOW_START:WINDOW_END)) %>%
     mutate(
       EVENTS = sum(NUMBER_OF_EVENTS %in% WINDOW),
-      DAYS_AT_RISK= sum(TIME_AT_RISK %in% WINDOW),
+      DAYS_AT_RISK = sum(TIME_AT_RISK %in% WINDOW),
       IR = EVENTS / DAYS_AT_RISK * scale_fct
     ) %>%
-    select(-c(TIME_AT_RISK, NUMBER_OF_EVENTS, WINDOW)) 
-
+    select(-c(TIME_AT_RISK, NUMBER_OF_EVENTS, WINDOW))
 }
 NULL
 

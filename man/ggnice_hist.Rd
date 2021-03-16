@@ -8,6 +8,7 @@ ggnice_hist(
   data,
   x,
   x_lab = NULL,
+  x_breaks = NULL,
   title = NULL,
   vline = NULL,
   digits = 1,
