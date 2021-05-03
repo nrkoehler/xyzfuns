@@ -2,12 +2,12 @@
 % Please edit documentation in R/ggfuns.R
 \name{scale_x_ln2}
 \alias{scale_x_ln2}
-\title{Logarithmic transformation of x-scale}
+\title{{Logarithmic transformation of x-scale}}
 \usage{
 scale_x_ln2(...)
 }
 \description{
-Logarithmic transformation of x-scale in ggplot graphics.
+{Logarithmic transformation of x-scale in ggplot graphics.}
 }
 \examples{
 \dontrun{
