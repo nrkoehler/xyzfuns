@@ -231,6 +231,41 @@ paste_lipsum <- function(n = 1){
   }
 }
 NULL
+#' @title {Estimate rate ratio}
+#' @description {Estimate rate ratio along with confidence interval
+#' and p-value.}
+#' @details {Tidy version of Minato Nakazawa's fmsb::rateratio() function.}
+#' @param a The number of events in group a.
+#' @param b The number of events in group b.
+#' @param time.a Time under risk of group a.
+#' @param time.b Time under risk of group b.
+#' @param conf.level Confidence level (default = 0.95)
+#' @return The function returns a data.frame with four variables:
+#' \itemize{
+#'  \item \code{EST} {Point estimate}
+#'  \item \code{CIL} {Confidence interval, lower bound}
+#'  \item \code{CIU} {Confidence interval, upper bound}
+#'  \item \code{PVAL} {p-Value}
+#' }
+#' @importFrom scales pvalue
+#' @source {\url{https://mirror.linux.duke.edu/cran/web/packages/fmsb/index.html}}
+#' @export
+rate_ratio <- function(a, b, time.a, time.b, conf.level = 0.95) {
+  .M <- a + b
+  .T <- time.a + time.b
+  .MAT <- matrix(c(a, b, .M, time.a, time.b, .T), 3, 2)
+  ESTIMATE <- (a / time.a) / (b / time.b)
+  norm.pp <- qnorm(1 - (1 - conf.level) / 2)
+  .CHI <- (a - (time.a / .T) * .M) / sqrt(.M * (time.a / .T) * (time.b / .T))
+
+  estimates <- data.frame(
+    EST = (a / time.a) / (b / time.b),
+    CIL = ESTIMATE * exp(-norm.pp * sqrt(1 / a + 1 / b)),
+    CIU = ESTIMATE * exp(norm.pp * sqrt(1 / a + 1 / b)),
+    PVAL = scales::pvalue(2 * (1 - pnorm(abs(.CHI))))
+  )
+}
+NULL
 #' @title {Scaling by two standard deviations}
 #' @description {Scale a numeric vector by by two standard deviations
 #' (rather than by one)}
