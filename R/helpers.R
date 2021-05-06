@@ -328,6 +328,12 @@ str_2_df <- function(x, n_col = 6, order = 'horizontal'){
   }
   data
 }
+#' @title {Character string to bullet list}
+#' @description {Convert a character string to a bullet list}
+#' @export
+str_2_list <- function(str){
+  cat(paste('-', str), sep = '\n') 
+}
 NULL
 #' @title {Update Packages fast}
 #' @description {Update Packages with the following defaults: ask=F, Ncpus=6}
