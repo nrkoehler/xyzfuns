@@ -22,6 +22,86 @@ add_and <- function(words, sep = ", ", and = "und") {
   words
 }
 NULL
+#' @title {Print calendar to console}
+#' @description {Prints a calendar to the console / RMarkdown documents}
+#' @source {\url{https://www.garrickadenbuie.com/blog/r-console-calendar/}}
+#' @author {Garrick Aden-Buie}
+#' @import dplyr
+#' @import lubridate
+#' @import crayon
+#' @importFrom tidyr complete nesting
+#' @importFrom cli cat_line
+#' @export
+cal <- function(
+  start_date = lubridate::today(),
+  end_date = start_date + 28,
+  week_start = 1
+) {
+  `%>%` <- dplyr::`%>%`
+  
+  if (!inherits(start_date, "Date")) {
+    start_date <- lubridate::ymd(start_date, truncated = 1)
+  }
+  if (!inherits(end_date, "Date")) {
+    end_date <- lubridate::ymd(end_date, truncated = 1)
+  }
+  
+  start_date <- lubridate::floor_date(start_date, "month")
+  end_date <- lubridate::rollback(lubridate::ceiling_date(end_date, "month"))
+  
+  tibble::tibble(
+    date      = seq(start_date, end_date, by = "day"),
+    day       = lubridate::day(date),
+    wday      = lubridate::wday(.data$date, label = FALSE, abbr = TRUE, week_start = week_start),
+    weekend   = lubridate::wday(.data$date, label = FALSE, week_start = 1) %in% 6:7,
+    week      = as.integer(lubridate::floor_date(.data$date, unit = "week", week_start = week_start)),
+    month     = lubridate::month(.data$date, label = TRUE, abbr = FALSE),
+    month_int = lubridate::month(.data$date, label = FALSE),
+    year      = lubridate::year(lubridate::floor_date(.data$date, unit = "year", week_start = week_start))
+  ) %>% 
+    dplyr::group_by(month, year) %>%
+    dplyr::mutate(week = week - min(week) + 1) %>%
+    dplyr::ungroup() %>%
+    tidyr::complete(tidyr::nesting(year, month_int, month), wday = 1:7, week) %>%
+    dplyr::arrange(year, month_int, week, wday) %>%
+    dplyr::mutate(
+      day = sprintf("%2s", day),
+      day = dplyr::if_else(weekend, as.character(crayon::silver(day)), day),
+      day = dplyr::if_else(
+        date == lubridate::today(), 
+        as.character(crayon::bold(crayon::red(day))),
+        day
+      ),
+      month_label = paste(month, year)
+    ) %>%
+    tidyr::replace_na(list(day = "  ")) %>%
+    dplyr::group_by(year, month_int, month_label, week) %>%
+    dplyr::summarize(day = paste(day, collapse = " "), .groups = "drop") %>%
+    dplyr::group_by(month_int) %>%
+    dplyr::mutate(
+      width = max(crayon::col_nchar(day)),
+      day = crayon::col_align(day, width = width, align = "right"),
+      month_label = crayon::col_align(month_label, width = width, align = "center"),
+      month_label = crayon::bold(month_label)
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::bind_rows(
+      dplyr::distinct(., year, month_int, day = month_label, week = 0)
+    ) %>%
+    dplyr::mutate(width = max(crayon::col_nchar(day))) %>%
+    dplyr::arrange(year, month_int, week) %>%
+    dplyr::group_by(year, month_int) %>%
+    dplyr::mutate(
+      row = dplyr::cur_group_id() - 1,
+      row = floor(row / (getOption("width") %/% (width + 2))),
+    ) %>%
+    dplyr::group_by(row, week) %>%
+    dplyr::summarize(text = paste(day, collapse = "    "), .groups = "drop_last") %>%
+    dplyr::mutate(text = dplyr::if_else(week == max(week), paste0(text, "\n"), text)) %>%
+    dplyr::pull(text) %>%
+    cli::cat_line()
+}
+NULL
 #' @title {Compare Two Vectors}
 #' @description {Compare two vectors and return intersections.}
 #' @source {\url{https://twitter.com/tyluRp/status/1197634755430367235}}
