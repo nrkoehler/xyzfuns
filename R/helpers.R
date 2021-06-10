@@ -23,12 +23,12 @@ add_and <- function(words, sep = ", ", and = "und") {
 }
 NULL
 #' @title {Print calendar to console}
-#' @description {Prints a calendar to the console / RMarkdown documents}
+#' @description {Prints a monthly calendar to the console}
 #' @source {\url{https://www.garrickadenbuie.com/blog/r-console-calendar/}}
 #' @author {Garrick Aden-Buie}
 #' @import dplyr
 #' @import lubridate
-#' @import crayon
+#' @importFrom crayon silver red bold col_nchar col_align
 #' @importFrom tidyr complete nesting
 #' @importFrom cli cat_line
 #' @export

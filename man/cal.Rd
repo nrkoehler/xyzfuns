@@ -14,7 +14,7 @@ cal(
 )
 }
 \description{
-{Prints a calendar to the console / RMarkdown documents}
+{Prints a monthly calendar to the console}
 }
 \author{
 {Garrick Aden-Buie}
