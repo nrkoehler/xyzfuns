@@ -4,7 +4,6 @@
 # xyzfuns
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 The package contains miscellaneous helper functions commonly used for
