@@ -12,7 +12,7 @@
 #' @param modul Name of table from SecuTrial database
 #' @import dplyr
 #' @export
-sect_map_varlabs <- function(modul) {
+st_map_varlabs <- function(modul) {
 
     df <- tibble(ITEM_COLUMN = c('PATIENT_ID', 'VISIT_LABEL', 'PAGE_LABEL'),
                ITEM_LABEL = c('Patienten_ID', 'Visite', 'Modul')) %>%
