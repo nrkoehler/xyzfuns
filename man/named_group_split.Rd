@@ -3,6 +3,9 @@
 \name{named_group_split}
 \alias{named_group_split}
 \title{{Named {group_split()} function}}
+\source{
+{\url{https://github.com/tidyverse/dplyr/issues/4223}}
+}
 \usage{
 named_group_split(.tbl, ...)
 }

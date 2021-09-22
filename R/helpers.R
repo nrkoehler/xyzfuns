@@ -243,6 +243,7 @@ NULL
 #' @title {Named {group_split()} function}
 #' @description {Modified version of {dplyr::group_split()}. 
 #' Unlike the original function, it returns named lists.}
+#' @source {\url{https://github.com/tidyverse/dplyr/issues/4223}}
 #' @param .tbl Grouping variable
 #' @import dplyr
 #' @importFrom rlang eval_bare set_names
