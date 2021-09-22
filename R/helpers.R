@@ -240,6 +240,22 @@ more_less <- function(x, rev = FALSE) {
   }
 }
 NULL
+#' @title {Named {group_split()} function}
+#' @description {Modified version of {dplyr::group_split()}. 
+#' Unlike the original function, it returns named lists.}
+#' @param .tbl Grouping variable
+#' @import dplyr
+#' @importFrom rlang eval_bare set_names
+#' @export
+named_group_split <- function(.tbl, ...) {
+  grouped <- group_by(.tbl, ...)
+  names <- rlang::eval_bare(rlang::expr(paste(!!!group_keys(grouped), sep = " / ")))
+
+  grouped %>%
+    group_split() %>%
+    rlang::set_names(names)
+}
+NULL
 #' @title {Convert numbers to German words}
 #' @description {Convert numbers from 0 to 10 to German words.}
 #' @param x A numeric vector. Values should be integers. The absolute values should be between 0 and 10.

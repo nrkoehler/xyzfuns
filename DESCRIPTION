@@ -1,8 +1,8 @@
 Package: xyzfuns
 Type: Package
 Title: Miscellaneous Helper Functions
-Version: 0.1.21
-Date: 2021-07-29
+Version: 0.1.22
+Date: 2021-09-22
 Authors@R: c(person("Norbert", "Koehler", 
     email = "norbert.koehler@zks.uni-leipzig.de", 
     role = c("aut", "cre"), 
@@ -15,4 +15,4 @@ Imports: magrittr, dplyr, ggplot2, scales, tibble
 License: MIT
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
