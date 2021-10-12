@@ -7,29 +7,6 @@
 exp_labs <- function(x, digits = 2) {
   round(exp(x), digits = digits)
 }
-#' @title {Logarithmic transformation of x-scale}
-#' @description {Logarithmic transformation of x-scale in ggplot graphics.}
-#' @examples
-#' \dontrun{
-#' library(ggplot2)
-#' ggplot(mtcars, aes(x = mpg)) + geom_density() + scale_x_ln2()
-#' }
-#' @export
-scale_x_ln2 <- function(...){
-  scale_x_continuous(..., trans = scales::log_trans())
-}
-NULL
-#' @title Logarithmic transformation of y-scale
-#' @description Logarithmic transformation of y-scale in ggplot graphics.
-#' @examples
-#' \dontrun{
-#' library(ggplot2)
-#' ggplot(mtcars, aes(mpg)) + geom_density() + scale_y_ln2()
-#' }
-#' @export
-scale_y_ln2 <- function(...){
-  scale_x_continuous(..., trans = scales::log_trans())
-}
 NULL
 #' @title {Plot histogram with some additional statistics using ggplot2}
 #' @description {Plot histogram with some additional statistics using ggplot2.} 
@@ -149,14 +126,16 @@ NULL
 #' @param line_color  Colour of the vertical lines
 #' @param fill_color Colour of the area under the curve
 #' @param arrow_color Colour of the arrows
+#' @import grid
 #' @import ggplot2
-#' @importFrom grid arrow
 #' @export
 ggnorm_dist <- function(line_color = 'white',
                         fill_color = 'steelblue',
                         arrow_color = 'black') {
   
-  arrow <- grid::arrow(length = unit(5, "mm"), angle = 15)
+  arrow <- arrow(length = unit(5, "mm"), angle = 15)
+  
+
 
   ggplot(data.frame(x = c(-3.5, 0,  3.5)), aes(x)) +
     stat_function(

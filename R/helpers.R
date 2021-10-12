@@ -376,13 +376,13 @@ NULL
 #' @description {Show data.frame in MS Excel and continue piping}
 #' @source {\url{https://twitter.com/CorradoLanera/status/1447478650488737792}}
 #' @param .data data.frame
-#' @importFrom readr write_excel_csv
+#' @importFrom openxlsx write.xlsx
 #' @importFrom fs file_show
 #' @export
 show_in_excel <- function(.data) {
-  if (interactive()) { # avoid unwanted Excel's executions
-    tmp <- tempfile(fileext = '.csv') 
-    readr::write_excel_csv(.data, tmp)
+  if (interactive()) { # avoid unwanted Excel executions
+    tmp <- tempfile(fileext = '.xlsx') 
+    openxlsx::write.xlsx(.data, tmp)
     fs::file_show(tmp)
   }
   .data # so that we can continue piping
