@@ -355,6 +355,22 @@ scale_by_2sd <- function(x) {
   scale(x, center = TRUE, scale = FALSE) / (2 * sd(x, na.rm = TRUE))
 }
 NULL
+#' @title {Show data.frame in MS Excel}
+#' @description {Show data.frame in MS Excel and continue piping}
+#' @source {\url{https://twitter.com/CorradoLanera/status/1447478650488737792}}
+#' @param .data data.frame
+#' @importFrom readr write_excel_csv
+#' @importFrom fs file_show
+#' @export
+show_in_excel <- function(.data) {
+  if (interactive()) { # avoid unwanted Excel's executions
+    tmp <- tempfile(fileext = '.csv') 
+    readr::write_excel_csv(.data, tmp)
+    fs::file_show(tmp)
+  }
+  .data # so that we can continue piping
+}
+NULL
 #' @title {Shorten character string}
 #' @description {Shortens a character string to a specified length}
 #' @param x character string to be shortened
