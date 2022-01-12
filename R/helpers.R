@@ -177,6 +177,29 @@ increase_decrease <- function(x) {
   ifelse(x < 0, "decreased", "increased")
 }
 NULL
+#' @title {Put objects of global environment into a list}
+#' @description {Put objects of global environment 
+#' matching a pre-defined pattern into a list}
+#' @param pattern Pattern to search for; may be a 
+#' regular expression
+#' @export
+globenv_2_list <- function(pattern = '^df') {
+  
+  namen <- ls(pattern = pattern,
+              envir = .GlobalEnv)
+  
+  l <- length(namen)
+  
+  obj.lst <- vector(mode = "list", length = l)
+  
+  for (i in 1:l) {
+    obj.lst[i] <- ls(pattern = pattern)[i]
+    obj.lst <- setNames(object = obj.lst, nm = namen)
+    obj.lst[i] <- get(namen[i], envir = .GlobalEnv)
+  }
+  obj.lst
+}
+NULL
 #' @title {Print estimate, 95\% CI, and p-value of regression modles}
 #' @description {Print estimate, 95\% CI, and p-value as derived from broom::tidy\(fit\)}
 #' @param data data frame as derived from broom::tidy\(fit\)
