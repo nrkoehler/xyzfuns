@@ -18,48 +18,52 @@ NULL
 #' @param vline x-intercept for vertical line (numeric)
 #' @param digits Number of digits (numeric)
 #' @param scale Scale transformation (character); defaults to "identity" (no transformation)
-#' @param theme ggplot-theme (function)
 #' @examples
 #' \dontrun{
 #' ggnice_hist(data = mtcars, 
 #'              x = hp, 
 #'              x_lab = 'Gross horsepower',
 #'              title = 'mtcars: Gross horsepower',
-#'              scale = 'identity',
-#'              theme = mdthemes::md_theme_bw())
+#'              scale = 'identity'
 #' }
 #' @import ggplot2
 #' @import scales
 #' @importFrom dplyr pull `%>%`
 #' @importFrom tibble rownames_to_column
+#' @importFrom ggtext element_markdown
 #' @export
 ggnice_hist <- function(data, 
-                         x, 
-                         x_lab = NULL, 
-                         x_breaks = NULL,
-                         title = NULL, 
-                         vline = NULL,
-                         digits = 1,
-                         scale = scales::identity_trans(), 
-                         theme = mdthemes::md_theme_bw()) {
-
+                        x, 
+                        x_lab = NULL, 
+                        x_breaks = NULL,
+                        title = NULL, 
+                        vline = NULL,
+                        digits = 1,
+                        scale = scales::identity_trans()) {
+  
   x_lab <- if (is.null(x_lab)) deparse(substitute(x)) else x_lab
   x <- pull(data, {{ x }})
   x <- as.numeric(x)
   x_breaks <- if (is.null(x_breaks)) waiver() else x_breaks
-
+  
   transformer <- if (scale[[1]] == 'identity') 'none' else scale[[1]]
   
   mode_fun <- function(x) {
     d <- stats::density(x, na.rm = TRUE)
     d$x[which.max(d$y)]
   }
-
+  
+  format_num <- function(x, digits = 1) {
+    formatC(round(x, digits = digits), format = "f", digits = digits)
+  }
+  
   df.temp <- data.frame(
     Mode = round(mode_fun(x), digits),
     Median = round(median(x, na.rm = TRUE), digits),
     Mean = round(mean(x, na.rm = TRUE), digits)
   )
+  
+  
   
   NVALID <- sum(!is.na(x))
   NMISSING <- sum(is.na(x))
@@ -69,17 +73,20 @@ ggnice_hist <- function(data,
   MEDIAN = format_num(median(x, na.rm = TRUE), digits)
   IQR <- paste(format_num(quantile(x, na.rm = TRUE), digits)[2],
                format_num(quantile(x, na.rm = TRUE), digits)[4],
-    sep = " to "
+               sep = " to "
   )
   MODE = format_num(mode_fun(x), digits)
-
+  
+  
+  MODE = formatC(round(mode_fun(x), digits = digits), format = "f", digits = digits)
+  
   df.stats <- data.frame(
     x = t(df.temp),
     y = 0,
     col = c("#919C4C", "#C03728", "#FD8F24")
   ) %>%
     rownames_to_column("measure")
-
+  
   ggplot(df.stats, aes(x = x, y = y, colour = measure, shape = measure)) +
     labs(
       colour = NULL, shape = NULL,
@@ -88,10 +95,10 @@ ggnice_hist <- function(data,
       title = title,
       caption = paste('x-scale transformer:', transformer),
       subtitle = paste0("__N (valid)__ = ", NVALID, ", ",
-                       "__N (missing)__ = ", NMISSING, ", ",
-                       "__Mean (SD)__ = ", paste0(MEAN, ' (', SD, '), '),
-                       "__Median (IQR)__ = ", paste0(MEDIAN, ' (', IQR, '), '),
-                       "__Mode__ = ", MODE)
+                        "__N (missing)__ = ", NMISSING, ", ",
+                        "__Mean (SD)__ = ", paste0(MEAN, ' (', SD, '), '),
+                        "__Median (IQR)__ = ", paste0(MEDIAN, ' (', IQR, '), '),
+                        "__Mode__ = ", MODE)
     ) +
     scale_colour_manual(values = as.character(df.stats$col)) +
     scale_fill_manual(values = as.character(df.stats$col)) +
@@ -105,21 +112,21 @@ ggnice_hist <- function(data,
              alpha = 0.5
     ) +
     geom_rug(aes(x = x), sides = "t", inherit.aes = FALSE, data = data) +
-    geom_vline(xintercept = vline, colour = 'red', linetype = 4, size = 1) +
+    geom_vline(xintercept = vline, colour = 'red', linetype = 4, linewidth = 1) +
     geom_line(
       stat = "density", data = data, aes(x = x), inherit.aes = FALSE,
-      size = 1.2, colour = "#2c3e50"
+      linewidth = 1.2, colour = "#2c3e50"
     ) +
     geom_point(size = 5) +
-    theme +
+    theme_bw() +
     theme(
       axis.ticks.y = element_blank(),
       axis.text.y = element_blank(),
-      legend.position = "bottom"
+      legend.position = "bottom",
+      plot.subtitle = element_markdown()
     ) +
     scale_x_continuous(trans = scale, breaks = x_breaks) 
 }
-NULL
 #' @title {Plot normal distribution using ggplot2}
 #' @description {Plots normal distribution along with standard deviations 
 #' and confidence intervals using ggplot2.} 

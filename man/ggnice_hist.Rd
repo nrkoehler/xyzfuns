@@ -12,8 +12,7 @@ ggnice_hist(
   title = NULL,
   vline = NULL,
   digits = 1,
-  scale = scales::identity_trans(),
-  theme = mdthemes::md_theme_bw()
+  scale = scales::identity_trans()
 )
 }
 \arguments{
@@ -30,8 +29,6 @@ ggnice_hist(
 \item{digits}{Number of digits (numeric)}
 
 \item{scale}{Scale transformation (character); defaults to "identity" (no transformation)}
-
-\item{theme}{ggplot-theme (function)}
 }
 \description{
 {Plot histogram with some additional statistics using ggplot2.} 
@@ -43,7 +40,6 @@ ggnice_hist(data = mtcars,
              x = hp, 
              x_lab = 'Gross horsepower',
              title = 'mtcars: Gross horsepower',
-             scale = 'identity',
-             theme = mdthemes::md_theme_bw())
+             scale = 'identity'
 }
 }
