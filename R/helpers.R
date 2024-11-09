@@ -478,6 +478,7 @@ update_fast <- function(){utils::update.packages(ask=FALSE, Ncpus=6)}
 NULL
 #' @title {Prepare date variables for export}
 #' @description {Prepare date variables for export to Excel, SPSS, etc.}
+#' @importFrom lubridate ymd ymd_hm, ymd_hms
 #' @export
 write_dates <- function(x) {
   y <- nchar(as.character(x[which(!is.na(x))[1]]))
